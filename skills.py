@@ -13,10 +13,10 @@ def pickup(robot, vacuum, speed=40):
     robot.home(speed)
 
 def release_conveyor2(robot, vacuum, speed=40):
-    robot.move_angles([131, 0, 0, 0, 0, -90], speed)
+    robot.move_angles([132, 0, 0, 0, 0, -90], speed)
     time.sleep(2)
 
-    robot.move_angles([131, 0, 39, 0, -40, -90], speed)
+    robot.move_angles([132, 0, 39, 0, -40, -90], speed)
     time.sleep(2)
 
     vacuum.off()
