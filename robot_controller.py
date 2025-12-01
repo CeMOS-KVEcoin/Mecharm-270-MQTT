@@ -1,7 +1,13 @@
+import os
+from dotenv import load_dotenv
 from pymycobot import MechArm270
 
+load_dotenv()
+
 class RobotController:
-    def __init__(self, port="/dev/ttyAMA0", baud=1000000):
+    def __init__(self):
+        port = os.getenv("SERIAL_PORT", "/dev/ttyAMA0")
+        baud = int(os.getenv("BAUD", "1000000"))
         self.mc = MechArm270(port, baud)
 
     def home(self, speed=40):
