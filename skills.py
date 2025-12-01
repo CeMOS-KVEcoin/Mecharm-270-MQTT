@@ -26,10 +26,10 @@ def release_conveyor2(robot, vacuum, speed=40):
     robot.home(speed)
 
 def put_pedastel(robot, vacuum, speed=40):
-    robot.move_angles([-10, 0, 0, 0, 0, -180], speed)
+    robot.move_angles([-10, 0, 0, 0, 0, -120], speed)
     time.sleep(2)
 
-    robot.move_angles([-10, 0, 10, 0, -10, -180], speed)
+    robot.move_angles([-10, 0, 10, 0, -10, -120], speed)
     time.sleep(2)
 
     vacuum.off()
