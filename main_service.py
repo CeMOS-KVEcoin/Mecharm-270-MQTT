@@ -50,13 +50,13 @@ def on_message(client, userdata, msg):
                 args=(robot, vacuum, speed)
             ).start()
 
-        if cmd == "release_conveyor2":
+        elif cmd == "release_conveyor2":
             threading.Thread(
                 target=release_conveyor2,
                 args=(robot, vacuum, speed)
             ).start()
 
-        if cmd == "put_pedastel":
+        elif cmd == "put_pedastel":
             threading.Thread(
                 target=put_pedastel,
                 args=(robot, vacuum, speed)
