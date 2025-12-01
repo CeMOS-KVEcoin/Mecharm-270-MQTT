@@ -29,13 +29,13 @@ def put_pedastel(robot, vacuum, speed=40):
     robot.move_angles([0, 0, 0, 0, 0, -179], speed)
     time.sleep(2)
 
-    robot.move_angles([0, 6, 20, 8, -15, -179], speed)
+    robot.move_angles([0, 6, 20, 8, -5, -179], speed)
     time.sleep(2)
 
     vacuum.off()
     time.sleep(4)
 
-    robot.move_angles([5, 0, 0, 0, -10, -179], speed)
+    robot.move_angles([5, 0, 20, 0, -10, -179], speed)
     time.sleep(2)
 
     robot.home(speed)   
