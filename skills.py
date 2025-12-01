@@ -20,6 +20,7 @@ def release_conveyor2(robot, vacuum, speed=40):
     time.sleep(2)
 
     vacuum.off()
+    robot.move_angles([132, 0, 35, 0, -40, -90], speed)
     time.sleep(4)
 
     robot.home(speed)
