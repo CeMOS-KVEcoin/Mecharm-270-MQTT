@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 
 from robot_controller import RobotController
 from vacuum_controller import VacuumController
-from skills import pickup, release, home
+from skills import pickup, release, home, release_conveyor2
 from mqtt_config import *
 
 robot = RobotController()
@@ -47,6 +47,12 @@ def on_message(client, userdata, msg):
         if cmd == "pickup":
             threading.Thread(
                 target=pickup,
+                args=(robot, vacuum, speed)
+            ).start()
+
+        if cmd == "release_conveyor2":
+            threading.Thread(
+                target=release_conveyor2,
                 args=(robot, vacuum, speed)
             ).start()
 
