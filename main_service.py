@@ -63,10 +63,10 @@ def on_message(client, userdata, msg):
             ).start()
 
         elif cmd == "release":
-            release(vacuum)
+            threading.Thread(target=release, args=(vacuum,)).start()
 
         elif cmd == "home":
-            home(robot, speed)
+            threading.Thread(target=home, args=(robot, speed)).start()
 
         elif cmd == "move":
             angles = payload.get("angles")
