@@ -10,6 +10,7 @@ from mqtt_config import *
 
 robot = RobotController()
 vacuum = VacuumController()
+skill_lock = threading.Lock()
 
 # ================= STATUS =================
 
@@ -35,6 +36,12 @@ def on_connect(client, userdata, flags, rc):
     vacuum.off()
     print("→ Startposition gesetzt")
 
+def run_skill(func, *args):
+    def wrapper():
+        with skill_lock:
+            func(*args)
+    threading.Thread(target=wrapper).start()
+
 
 def on_message(client, userdata, msg):
     try:
@@ -45,28 +52,20 @@ def on_message(client, userdata, msg):
         print(f"[MQTT] Befehl: {payload}")
 
         if cmd == "pickup":
-            threading.Thread(
-                target=pickup,
-                args=(robot, vacuum, speed)
-            ).start()
+            run_skill(pickup, robot, vacuum, speed)
 
         elif cmd == "release_conveyor2":
-            threading.Thread(
-                target=release_conveyor2,
-                args=(robot, vacuum, speed)
-            ).start()
+            run_skill(release_conveyor2, robot, vacuum, speed)
 
         elif cmd == "put_pedastel":
-            threading.Thread(
-                target=put_pedastel,
-                args=(robot, vacuum, speed)
-            ).start()
+            run_skill(put_pedastel, robot, vacuum, speed)
 
         elif cmd == "release":
-            threading.Thread(target=release, args=(vacuum,)).start()
+            run_skill(release, vacuum)
 
         elif cmd == "home":
-            threading.Thread(target=home, args=(robot, speed)).start()
+            run_skill(home, robot, speed)
+
 
         elif cmd == "move":
             angles = payload.get("angles")
