@@ -8,7 +8,7 @@ def pickup(robot, vacuum, speed=40):
     time.sleep(2)
 
     vacuum.on()
-    time.sleep(1)
+    time.sleep(2)
 
     robot.home(speed)
 
@@ -20,7 +20,7 @@ def release_conveyor2(robot, vacuum, speed=40):
     time.sleep(2)
 
     vacuum.off()
-    time.sleep(1)
+    time.sleep(4)
 
     robot.home(speed)
 
