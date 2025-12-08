@@ -53,6 +53,7 @@ def on_message(client, userdata, msg):
 
         if cmd == "pickup":
             run_skill(pickup, robot, vacuum, speed)
+            client.publish(TOPIC_STATUS, json.dumps({"state": "picking up", "ts": time.time()}))
 
         elif cmd == "release_conveyor2":
             run_skill(release_conveyor2, robot, vacuum, speed)
