@@ -67,15 +67,6 @@ def on_message(client, userdata, msg):
         elif cmd == "home":
             run_skill(home, robot, speed)
 
-
-        elif cmd == "move":
-            angles = payload.get("angles")
-            if angles and len(angles) == 6:
-                robot.move_angles(angles, speed)
-                publish_status(client, "done", {"action": "move"})
-            else:
-                publish_status(client, "error", {"msg": "invalid angles"})
-
         else:
             publish_status(client, "error", {"msg": f"unknown command {cmd}"})
 
