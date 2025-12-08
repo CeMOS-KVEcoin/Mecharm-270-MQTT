@@ -14,14 +14,14 @@ skill_lock = threading.Lock()
 
 # ================= STATUS =================
 
-def publish_status(client, state="idle", extra=None):
-    payload = {
-        "state": state,
-        "coords": robot.get_coords(),
-        "extra": extra or {},
-        "ts": time.time()
-    }
-    client.publish(TOPIC_STATUS, json.dumps(payload))
+# def publish_status(client, state="idle", extra=None):
+#     payload = {
+#         "state": state,
+#         "coords": robot.get_coords(),
+#         "extra": extra or {},
+#         "ts": time.time()
+#     }
+#     client.publish(TOPIC_STATUS, json.dumps(payload))
 
 
 # ================= MQTT =================
@@ -123,7 +123,7 @@ print("[Service] SRP MechArm MQTT Service gestartet")
 try:
     while True:
         time.sleep(5)
-        publish_status(client, "idle")
+       # publish_status(client, "idle")
 
 except KeyboardInterrupt:
     pass
