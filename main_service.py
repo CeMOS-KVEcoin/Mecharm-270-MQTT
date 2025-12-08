@@ -36,11 +36,31 @@ def on_connect(client, userdata, flags, rc):
     vacuum.off()
     print("→ Startposition gesetzt")
 
-def run_skill(func, *args):
+def run_skill(func, client, cmd_name, *args):
     def wrapper():
-        with skill_lock:
+        try:
+            client.publish(TOPIC_STATUS, json.dumps({
+                "state": f"{cmd_name} in progress",
+                "ts": time.time()
+            }))
             func(*args)
+            client.publish(TOPIC_STATUS, json.dumps({
+                "state": f"{cmd_name} done",
+                "ts": time.time()
+            }))
+        except Exception as e:
+            client.publish(TOPIC_STATUS, json.dumps({
+                "state": "error",
+                "msg": str(e),
+                "cmd": cmd_name,
+                "ts": time.time()
+            }))
+        finally:
+            skill_lock.release()
+
+    skill_lock.acquire()
     threading.Thread(target=wrapper).start()
+
 
 
 def on_message(client, userdata, msg):
@@ -51,27 +71,40 @@ def on_message(client, userdata, msg):
 
         print(f"[MQTT] Befehl: {payload}")
 
+       # Status VOR dem Start
+        client.publish(TOPIC_STATUS, json.dumps({
+            "state": f"starting {cmd}",
+            "ts": time.time()
+        }))
+
         if cmd == "pickup":
-            run_skill(pickup, robot, vacuum, speed)
-            client.publish(TOPIC_STATUS, json.dumps({"state": "picking up", "ts": time.time()}))
+            run_skill(pickup, client, "pickup", robot, vacuum, speed)
 
         elif cmd == "release_conveyor2":
-            run_skill(release_conveyor2, robot, vacuum, speed)
+            run_skill(release_conveyor2, client, "release_conveyor2", robot, vacuum, speed)
 
         elif cmd == "put_pedastel":
-            run_skill(put_pedastel, robot, vacuum, speed)
+            run_skill(put_pedastel, client, "put_pedastel", robot, vacuum, speed)
 
         elif cmd == "release":
-            run_skill(release, vacuum)
+            run_skill(release, client, "release", vacuum)
 
         elif cmd == "home":
-            run_skill(home, robot, speed)
+            run_skill(home, client, "home", robot, speed)
 
         else:
-            publish_status(client, "error", {"msg": f"unknown command {cmd}"})
+            client.publish(TOPIC_STATUS, json.dumps({
+                "state": "error",
+                "msg": f"unknown command {cmd}",
+                "ts": time.time()
+            }))
 
     except Exception as e:
-        publish_status(client, "error", {"msg": str(e)})
+        client.publish(TOPIC_STATUS, json.dumps({
+            "state": "error",
+            "msg": str(e),
+            "ts": time.time()
+        }))
 
 
 # ================= START =================
