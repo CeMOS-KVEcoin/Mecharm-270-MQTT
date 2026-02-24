@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 
 from robot_controller import RobotController
 from vacuum_controller import VacuumController
-from skills import pickup, put_pedastel, release, home, release_conveyor2
+from skills import pickup, place_pedastel, release, home, release_conveyor2
 from mqtt_config import *
 
 robot = RobotController()
@@ -37,23 +37,21 @@ def on_connect(client, userdata, flags, rc):
     print("→ Startposition gesetzt")
 
 def run_skill(func, client, cmd_name, *args):
+    cmd_name = func.__name__
     def wrapper():
         try:
             client.publish(TOPIC_STATUS, json.dumps({
                 "state": f"{cmd_name} in progress",
-                "ts": time.time()
             }))
             func(*args)
             client.publish(TOPIC_STATUS, json.dumps({
                 "state": f"{cmd_name} done",
-                "ts": time.time()
             }))
         except Exception as e:
             client.publish(TOPIC_STATUS, json.dumps({
                 "state": "error",
                 "msg": str(e),
                 "cmd": cmd_name,
-                "ts": time.time()
             }))
         finally:
             skill_lock.release()
@@ -74,7 +72,6 @@ def on_message(client, userdata, msg):
        # Status VOR dem Start
         client.publish(TOPIC_STATUS, json.dumps({
             "state": f"starting {cmd}",
-            "ts": time.time()
         }))
 
         if cmd == "pickup":
@@ -83,8 +80,8 @@ def on_message(client, userdata, msg):
         elif cmd == "release_conveyor2":
             run_skill(release_conveyor2, client, "release_conveyor2", robot, vacuum, speed)
 
-        elif cmd == "put_pedastel":
-            run_skill(put_pedastel, client, "put_pedastel", robot, vacuum, speed)
+        elif cmd == "place_pedastel":
+            run_skill(place_pedastel, client, "place_pedastel", robot, vacuum, speed)
 
         elif cmd == "release":
             run_skill(release, client, "release", vacuum)
@@ -96,14 +93,12 @@ def on_message(client, userdata, msg):
             client.publish(TOPIC_STATUS, json.dumps({
                 "state": "error",
                 "msg": f"unknown command {cmd}",
-                "ts": time.time()
             }))
 
     except Exception as e:
         client.publish(TOPIC_STATUS, json.dumps({
             "state": "error",
             "msg": str(e),
-            "ts": time.time()
         }))
 
 
