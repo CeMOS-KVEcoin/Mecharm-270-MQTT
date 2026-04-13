@@ -1,17 +1,22 @@
 import json
 import time
+import logging
 import threading
 import paho.mqtt.client as mqtt
 
 from robot_controller import RobotController
 from vacuum_controller import VacuumController
 from skills import *
-from capabilities import *
 from mqtt_config import *
 
 robot = RobotController()
 vacuum = VacuumController()
 skill_lock = threading.Lock()
+
+FIRST_RECONNECT_DELAY = 1
+RECONNECT_RATE = 2
+MAX_RECONNECT_COUNT = 12
+MAX_RECONNECT_DELAY = 60
 
 # ================= STATUS =================
 
@@ -28,14 +33,35 @@ skill_lock = threading.Lock()
 # ================= MQTT =================
 
 def on_connect(client, userdata, flags, rc):
-    print(f"[MQTT] Verbunden (Code {rc})")
-    client.subscribe(TOPIC_CMD)
+    if rc == 0 and client.is_connected():
+        print(f"[MQTT] Verbunden (Code {rc})")
+        client.subscribe(TOPIC_CMD)
 
-    # ✅ Startsequenz
-    time.sleep(1)
-    robot.home(40)
-    vacuum.off()
-    print("→ Startposition gesetzt")
+        time.sleep(1)
+        vacuum.off()
+        home(40)
+        print("→ startposition set")
+    else:
+        print(f'Failed to connect, return code {rc}')
+
+def on_disconnect(client, userdata, rc):
+    logging.info("Disconnected with result code: %s", rc)
+    reconnect_count, reconnect_delay = 0, FIRST_RECONNECT_DELAY
+    while reconnect_count < MAX_RECONNECT_COUNT:
+        logging.info("Reconnecting in %d seconds...", reconnect_delay)
+        time.sleep(reconnect_delay)
+
+        try:
+            client.reconnect()
+            logging.info("Reconnected successfully!")
+            return
+        except Exception as err:
+            logging.error("%s. Reconnect failed. Retrying...", err)
+
+        reconnect_delay *= RECONNECT_RATE
+        reconnect_delay = min(reconnect_delay, MAX_RECONNECT_DELAY)
+        reconnect_count += 1
+    logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
 def run_skill(func, client, cmd_name, *args):
     cmd_name = func.__name__

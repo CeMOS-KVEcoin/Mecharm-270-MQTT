@@ -1,5 +1,7 @@
 import time
 
+## basic skills
+
 def pickup(robot, vacuum, speed=40):
     grip(vacuum)
     time.sleep(2)
@@ -17,3 +19,51 @@ def grip(vacuum):
 
 def release(vacuum):
     vacuum.off()
+
+## Service Skills
+
+def pickupFromConveyor1(self, robot, vacuum, speed=40):
+    self.moveTo(robot, [-151, 0, 0, 0, 0, -90], speed)
+    self.moveTo(robot, [-151, 0, 41, 0, -40, -90], speed)
+
+    self.pickup(robot, vacuum, speed)
+
+
+def placeToConveyor2(self, robot, vacuum, speed=40):
+    self.moveTo(robot, [132, 0, 0, 0, 0, -90], speed)
+    self.moveTo(robot, [132, 0, 39, 0, -40, -90], speed)
+
+    self.release(vacuum)
+    self.moveTo([132, 0, 35, 0, -40, -90], speed)
+    time.sleep(2)
+
+    self.home(speed)
+
+def placeToLaser(self, robot, vacuum, speed=40):
+    #tbd
+    self.release(vacuum)
+    self.home(speed)
+
+def turnChip(self, robot, vacuum, speed=40):
+    #move to podest A
+    #release
+    #move to podest B
+    #grip or pickup
+    #tbd
+    self.home(speed)
+
+def placeToPedestal(self, robot, vacuum, speed=40):
+    self.moveTo([0, 0, 0, 0, 0, -179], speed)
+    time.sleep(2)
+
+    self.moveTo([-6, 25, 21.5, -10, -41, -179], 20)
+    time.sleep(2)
+
+    #vacuum.off()
+    self.release(vacuum)
+    time.sleep(4)
+
+    self.moveTo([5, 0, 20, 0, -10, -179], speed)
+    time.sleep(2)
+
+    self.home(speed)
