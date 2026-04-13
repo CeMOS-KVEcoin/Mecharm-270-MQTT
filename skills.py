@@ -31,10 +31,12 @@ def release():
 ## Service Skills
 
 def pickupFromConveyor1(self, speed=40):
+    print("pickupFromConveyor1 skill starting")
     self.moveTo([-151, 0, 0, 0, 0, -90], speed)
     self.moveTo([-151, 0, 41, 0, -40, -90], speed)
 
     self.pickup(speed)
+    print("pickupFromConveyor1 done")
 
 
 def placeToConveyor2(self, speed=40):
