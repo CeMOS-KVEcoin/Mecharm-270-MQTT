@@ -1,23 +1,29 @@
 import time
 
+from robot_controller import RobotController
+from vacuum_controller import VacuumController
+
+robot = RobotController()
+vacuum = VacuumController()
+
 ## basic skills
 
-def pickup(robot, vacuum, speed=40):
-    grip(vacuum)
+def pickup(speed=40):
+    grip()
     time.sleep(2)
     home(speed)  
 
-def moveTo(robot, angles, speed=40):
+def moveTo(angles, speed=40):
     robot.move_angles(angles, speed)
     time.sleep(2)
 
-def home(robot, speed=40):
-    moveTo(robot, [0, 0, 0, 0, 0, 0], speed)
+def home(speed=30):
+    moveTo([0, 0, 0, 0, 0, 0], speed)
 
-def grip(vacuum):
+def grip():
     vacuum.on()
 
-def release(vacuum):
+def release():
     vacuum.off()
 
 ## Service Skills

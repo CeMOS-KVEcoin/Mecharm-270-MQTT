@@ -38,6 +38,7 @@ def on_connect(client, userdata, flags, rc):
         client.subscribe(TOPIC_CMD)
 
         time.sleep(1)
+        robot.get_angles()
         vacuum.off()
         home(40)
         print("→ startposition set")
@@ -63,64 +64,51 @@ def on_disconnect(client, userdata, rc):
         reconnect_count += 1
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
-def run_skill(func, client, cmd_name, *args):
-    cmd_name = func.__name__
-    def wrapper():
-        try:
-            client.publish(TOPIC_STATUS, json.dumps({
-                "state": f"{cmd_name} in progress",
-            }))
-            func(*args)
-            client.publish(TOPIC_STATUS, json.dumps({
-                "state": f"{cmd_name} done",
-            }))
-        except Exception as e:
-            client.publish(TOPIC_STATUS, json.dumps({
-                "state": "error",
-                "msg": str(e),
-                "cmd": cmd_name,
-            }))
-        finally:
-            skill_lock.release()
-
-    skill_lock.acquire()
-    threading.Thread(target=wrapper).start()
-
-
-
-def on_message(client, userdata, msg):
+def run_skill(topic, payload):
     try:
-        payload = json.loads(msg.payload.decode())
-        cmd = payload.get("type")
-        speed = int(payload.get("speed", 40))
+        print(f"Publishing to {topic}: {payload}")
+        client.publish(TOPIC_STATUS, payload)
 
-        print(f"[MQTT] Befehl: {payload}")
-
-       # Status VOR dem Start
-        client.publish(TOPIC_STATUS, json.dumps({
-            "state": f"starting {cmd}",
-        }))
-
-        if cmd == "pickup":
-            run_skill(pickup, client, "pickup", robot, vacuum, speed)
-
-        elif cmd == "placeToConveyor2":
-            run_skill(placeToConveyor2, client, "placeToConveyor2", robot, vacuum, speed)
-
-        elif cmd == "placeToPedestal":
-            run_skill(placeToPedestal, client, "placeToPedestal", robot, vacuum, speed)
-
-        elif cmd == "release":
-            run_skill(release, client, "release", vacuum)
-
-        elif cmd == "home":
-            run_skill(home, client, "home", robot, speed)
-
+        if payload == "home":
+            home()
+        elif payload == "pickupFromConveyor1":
+            pickupFromConveyor1()
+        elif payload == "placeToConveyor2":
+            placeToConveyor2()
         else:
             client.publish(TOPIC_STATUS, json.dumps({
                 "state": "error",
-                "msg": f"unknown command {cmd}",
+                "msg": f"unknown command {payload}",
             }))
+            return
+
+    except Exception as e:
+        client.publish(TOPIC_STATUS, json.dumps({
+            "state": "error",
+            "msg": str(e),
+            "cmd": payload,
+        }))
+    finally:
+        skill_lock.release()
+
+
+
+def on_message(client, userdata, message):
+    try:
+        topic = message.topic
+        payload = message.payload.decode()
+        print(f"topic: {message.topic}, payload: {message.payload}, QoS={message.qos}")
+
+        if skill_lock.locked():
+            print("System busy")
+            return
+
+        skill_lock.acquire()
+
+        threading.Thread(
+            target=run_skill(),
+            args=(topic, payload)
+        ).start()
 
     except Exception as e:
         client.publish(TOPIC_STATUS, json.dumps({
