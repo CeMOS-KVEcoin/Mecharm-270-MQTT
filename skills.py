@@ -30,29 +30,29 @@ def release():
 
 ## Service Skills
 
-def pickupFromConveyor1(self, speed=40):
+def pickupFromConveyor1(speed=40):
     print("pickupFromConveyor1 skill starting")
-    self.moveTo([-151, 0, 0, 0, 0, -90], speed)
-    self.moveTo([-151, 0, 41, 0, -40, -90], speed)
+    moveTo([-151, 0, 0, 0, 0, -90], speed)
+    moveTo([-151, 0, 41, 0, -40, -90], speed)
 
-    self.pickup(speed)
+    pickup(speed)
     print("pickupFromConveyor1 done")
 
 
-def placeToConveyor2(self, speed=40):
-    self.moveTo([132, 0, 0, 0, 0, -90], speed)
-    self.moveTo([132, 0, 39, 0, -40, -90], speed)
+def placeToConveyor2(speed=40):
+    moveTo([132, 0, 0, 0, 0, -90], speed)
+    moveTo([132, 0, 39, 0, -40, -90], speed)
 
-    self.release()
-    self.moveTo([132, 0, 35, 0, -40, -90], speed)
+    release()
+    moveTo([132, 0, 35, 0, -40, -90], speed)
     time.sleep(2)
 
-    self.home(speed)
+    home(speed)
 
-def placeToLaser(self, speed=40):
+def placeToLaser(speed=40):
     #tbd
-    self.release(vacuum)
-    self.home(speed)
+    release()
+    home(speed)
 
 def turnChip(self, speed=40):
     #move to podest A
@@ -62,18 +62,18 @@ def turnChip(self, speed=40):
     #tbd
     self.home(speed)
 
-def placeToPedestal(self, speed=40):
-    self.moveTo([0, 0, 0, 0, 0, -179], speed)
+def placeToPedestal(speed=40):
+    moveTo([0, 0, 0, 0, 0, -179], speed)
     time.sleep(2)
 
-    self.moveTo([-6, 25, 21.5, -10, -41, -179], 20)
+    moveTo([-6, 25, 21.5, -10, -41, -179], 20)
     time.sleep(2)
 
     #vacuum.off()
-    self.release(vacuum)
+    release()
     time.sleep(4)
 
-    self.moveTo([5, 0, 20, 0, -10, -179], speed)
+    moveTo([5, 0, 20, 0, -10, -179], speed)
     time.sleep(2)
 
-    self.home(speed)
+    home(speed)
