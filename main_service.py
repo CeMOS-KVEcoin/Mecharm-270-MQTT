@@ -126,6 +126,7 @@ client = mqtt.Client()
 client.username_pw_set(MQTT_USER, MQTT_PASS)
 
 client.on_connect = on_connect
+client.on_disconnect = on_disconnect
 client.on_message = on_message
 
 client.connect(MQTT_BROKER, MQTT_PORT)
