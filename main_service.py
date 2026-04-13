@@ -65,8 +65,8 @@ def on_disconnect(client, userdata, rc):
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
 def publish_state(payload, state):
+    print(f"Publishing to {TOPIC_STATUS}: {payload}")
     logging.info("Publishing to %s with payload %s and state %s", TOPIC_STATUS, payload, state)
-    print("logging done")
 
     client.publish(TOPIC_STATUS, json.dumps({
         "state": state,
@@ -108,6 +108,7 @@ def run_skill(topic, payload):
             publish_state(payload, "done")
 
         else:
+            print("unknown command")
             client.publish(TOPIC_STATUS, json.dumps({
                 "state": "error",
                 "msg": f"unknown command {payload}",
