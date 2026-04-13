@@ -5,7 +5,8 @@ import paho.mqtt.client as mqtt
 
 from robot_controller import RobotController
 from vacuum_controller import VacuumController
-from skills import pickup, place_pedastel, release, home, release_conveyor2
+from skills import *
+from capabilities import *
 from mqtt_config import *
 
 robot = RobotController()
@@ -77,11 +78,11 @@ def on_message(client, userdata, msg):
         if cmd == "pickup":
             run_skill(pickup, client, "pickup", robot, vacuum, speed)
 
-        elif cmd == "release_conveyor2":
-            run_skill(release_conveyor2, client, "release_conveyor2", robot, vacuum, speed)
+        elif cmd == "placeToConveyor2":
+            run_skill(placeToConveyor2, client, "placeToConveyor2", robot, vacuum, speed)
 
-        elif cmd == "place_pedastel":
-            run_skill(place_pedastel, client, "place_pedastel", robot, vacuum, speed)
+        elif cmd == "placeToPedestal":
+            run_skill(placeToPedestal, client, "placeToPedestal", robot, vacuum, speed)
 
         elif cmd == "release":
             run_skill(release, client, "release", vacuum)
