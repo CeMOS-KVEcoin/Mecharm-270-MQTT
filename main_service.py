@@ -4,13 +4,13 @@ import logging
 import threading
 import paho.mqtt.client as mqtt
 
-from robot_controller import RobotController
-from vacuum_controller import VacuumController
+# from robot_controller import RobotController
+# from vacuum_controller import VacuumController
 from skills import *
 from mqtt_config import *
 
-robot = RobotController()
-vacuum = VacuumController()
+#robot = RobotController()
+#vacuum = VacuumController()
 skill_lock = threading.Lock()
 
 FIRST_RECONNECT_DELAY = 1
