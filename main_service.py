@@ -65,7 +65,7 @@ def on_disconnect(client, userdata, rc):
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
 def publish_state(payload, state):
-    print(f"Publishing to {TOPIC_STATUS}: {payload}")
+    print(f"Publishing to {TOPIC_STATUS}: {payload}, {state}")
     logging.info("Publishing to %s with payload %s and state %s", TOPIC_STATUS, payload, state)
 
     client.publish(TOPIC_STATUS, json.dumps({
@@ -129,7 +129,7 @@ def on_message(client, userdata, message):
     try:
         topic = message.topic
         payload = message.payload.decode()
-        print(f"topic: {message.topic}, payload: {message.payload}, QoS={message.qos}")
+        #print(f"topic: {topic}, payload: {payload}, QoS={message.qos}")
 
         if skill_lock.locked():
             print("System busy")
