@@ -18,7 +18,9 @@ def moveTo(angles, speed=40):
     time.sleep(2)
 
 def home(speed=30):
+    print("home skill starting")
     moveTo([0, 0, 0, 0, 0, 0], speed)
+    print("home skill done")
 
 def grip():
     vacuum.on()

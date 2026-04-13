@@ -38,9 +38,9 @@ def on_connect(client, userdata, flags, rc):
         client.subscribe(TOPIC_CMD)
 
         time.sleep(1)
-        print(robot.get_angles())
         vacuum.off()
         home(40)
+        print(robot.get_angles())
         print("→ starting position set")
     else:
         print(f'Failed to connect, return code {rc}')
