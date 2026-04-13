@@ -66,6 +66,7 @@ def on_disconnect(client, userdata, rc):
 
 def publish_state(payload, state):
     logging.info("Publishing to %s with payload %s and state %s", TOPIC_STATUS, payload, state)
+    print("logging done")
 
     client.publish(TOPIC_STATUS, json.dumps({
         "state": state,
@@ -74,10 +75,9 @@ def publish_state(payload, state):
     return
 
 def run_skill(topic, payload):
-    print("run skill")
     try:
-        print(f"Publishing to {topic}: {payload}")
-        client.publish(TOPIC_STATUS, payload)
+        #print(f"Publishing to {topic}: {payload}")
+        #client.publish(TOPIC_STATUS, payload)
 
         if payload == "home":
             publish_state(payload, "starting")
