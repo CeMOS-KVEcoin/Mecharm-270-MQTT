@@ -64,6 +64,15 @@ def on_disconnect(client, userdata, rc):
         reconnect_count += 1
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
+def publish_state(payload, state):
+    logging.info("Publishing to %s with payload %s and state %s", TOPIC_STATUS, payload, state)
+
+    client.publish(TOPIC_STATUS, json.dumps({
+        "state": state,
+        "msg": payload,
+    }))
+    return
+
 def run_skill(topic, payload):
     print("run skill")
     try:
@@ -71,23 +80,33 @@ def run_skill(topic, payload):
         client.publish(TOPIC_STATUS, payload)
 
         if payload == "home":
-            print("moving home position")
+            publish_state(payload, "starting")
             home()
-            if home().finished:
-                print("home position set")
+            publish_state(payload, "done")
+
         elif payload == "grip":
-            print("vacuum on")
+            publish_state(payload, "starting")
             grip()
+            publish_state(payload, "done")
+
         elif payload == "release":
-            print("vacuum off")
+            publish_state(payload, "starting")
             release()
+            publish_state(payload, "done")
+
+        elif payload == "get_angles":
+            print("current angles: " + robot.get_angles())
+
         elif payload == "pickupFromConveyor1":
-            print("pickup from conveyor 1")
+            publish_state(payload, "starting")
             pickupFromConveyor1(40)
-            if pickupFromConveyor1().finished:
-                print("pickup from conveyor 1 done")
+            publish_state(payload, "done")
+
         elif payload == "placeToConveyor2":
+            publish_state(payload, "starting")
             placeToConveyor2(40)
+            publish_state(payload, "done")
+
         else:
             client.publish(TOPIC_STATUS, json.dumps({
                 "state": "error",

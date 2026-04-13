@@ -18,9 +18,7 @@ def moveTo(angles, speed=40):
     time.sleep(2)
 
 def home(speed=30):
-    print("home skill starting")
     moveTo([0, 0, 0, 0, 0, 0], speed)
-    print("home skill done")
 
 def grip():
     vacuum.on()
@@ -31,12 +29,10 @@ def release():
 ## Service Skills
 
 def pickupFromConveyor1(speed=40):
-    print("pickupFromConveyor1 skill starting")
     moveTo([-151, 0, 0, 0, 0, -90], speed)
     moveTo([-151, 0, 41, 0, -40, -90], speed)
 
     pickup(speed)
-    print("pickupFromConveyor1 done")
 
 
 def placeToConveyor2(speed=40):
