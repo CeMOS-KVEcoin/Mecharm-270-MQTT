@@ -38,7 +38,7 @@ def on_connect(client, userdata, flags, rc):
         client.subscribe(TOPIC_CMD)
 
         time.sleep(1)
-        robot.get_angles()
+        print(robot.get_angles())
         vacuum.off()
         home(40)
         print("→ starting position set")
@@ -73,11 +73,21 @@ def run_skill(topic, payload):
         if payload == "home":
             print("moving home position")
             home()
+            if home().finished:
+                print("home position set")
+        elif payload == "grip":
+            print("vacuum on")
+            grip()
+        elif payload == "release":
+            print("vacuum off")
+            release()
         elif payload == "pickupFromConveyor1":
             print("pickup from conveyor 1")
-            pickupFromConveyor1()
+            pickupFromConveyor1(40)
+            if pickupFromConveyor1().finished:
+                print("pickup from conveyor 1 done")
         elif payload == "placeToConveyor2":
-            placeToConveyor2()
+            placeToConveyor2(40)
         else:
             client.publish(TOPIC_STATUS, json.dumps({
                 "state": "error",
