@@ -65,6 +65,7 @@ def on_disconnect(client, userdata, rc):
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
 def run_skill(topic, payload):
+    print("run skill")
     try:
         print(f"Publishing to {topic}: {payload}")
         client.publish(TOPIC_STATUS, payload)
