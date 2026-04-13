@@ -70,8 +70,10 @@ def run_skill(topic, payload):
         client.publish(TOPIC_STATUS, payload)
 
         if payload == "home":
+            print("moving home position")
             home()
         elif payload == "pickupFromConveyor1":
+            print("pickup from conveyor 1")
             pickupFromConveyor1()
         elif payload == "placeToConveyor2":
             placeToConveyor2()
