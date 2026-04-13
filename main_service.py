@@ -34,14 +34,14 @@ MAX_RECONNECT_DELAY = 60
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0 and client.is_connected():
-        print(f"[MQTT] Verbunden (Code {rc})")
+        print(f"[MQTT] Connected (Code {rc})")
         client.subscribe(TOPIC_CMD)
 
         time.sleep(1)
         robot.get_angles()
         vacuum.off()
         home(40)
-        print("→ startposition set")
+        print("→ starting position set")
     else:
         print(f'Failed to connect, return code {rc}')
 
@@ -95,7 +95,6 @@ def run_skill(topic, payload):
         skill_lock.release()
 
 
-
 def on_message(client, userdata, message):
     try:
         topic = message.topic
@@ -109,7 +108,7 @@ def on_message(client, userdata, message):
         skill_lock.acquire()
 
         threading.Thread(
-            target=run_skill(),
+            target=run_skill,
             args=(topic, payload)
         ).start()
 
