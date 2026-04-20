@@ -99,7 +99,7 @@ def run_skill(topic, payload):
             client.publish(TOPIC_STATUS, json.dumps({
                 "topic": TOPIC_STATUS,
                 "msg": payload,
-                "print_output": show_angles(),
+                "data": robot.get_angles(),
             }))
 
         elif payload == "pickupFromConveyor1":
