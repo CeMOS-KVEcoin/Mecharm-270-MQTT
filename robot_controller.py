@@ -36,7 +36,7 @@ class RobotController:
         self.mc.jog_coord(axis_index, direction, speed)
 
     def stop(self):
-        self.mc.stop()
+        return self.mc.stop()
 
     def is_moving(self):
         return self.mc.is_moving() #Check if the robot is currently moving (1=moving, 0=stopped)
