@@ -96,7 +96,7 @@ def run_skill(topic, payload):
 
         elif payload == "get_angles":
             print("get_angles message arrived")
-            print(f"current angles: " + robot.get_angles())
+            print(f"current angles: {robot.get_angles()}")
 
         elif payload == "pickupFromConveyor1":
             publish_state(payload, "starting")
@@ -109,6 +109,7 @@ def run_skill(topic, payload):
             publish_state(payload, "done")
 
         elif payload == "release_servos":
+            print("release_servos message arrived")
             release_servos(40)
 
         else:
