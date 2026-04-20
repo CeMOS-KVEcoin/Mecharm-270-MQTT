@@ -95,8 +95,8 @@ def run_skill(topic, payload):
             publish_state(payload, "done")
 
         elif payload == "get_angles":
-            print(robot.get_angles())
-            print("current angles: " + robot.get_angles())
+            print("get_angles message arrived")
+            print(f"current angles: " + robot.get_angles())
 
         elif payload == "pickupFromConveyor1":
             publish_state(payload, "starting")
@@ -133,7 +133,7 @@ def on_message(client, userdata, message):
     try:
         topic = message.topic
         payload = message.payload.decode()
-        print(f"topic: {topic}, payload: {payload}, QoS={message.qos}")
+        #print(f"topic: {topic}, payload: {payload}, QoS={message.qos}")
 
         if skill_lock.locked():
             print("System busy")
