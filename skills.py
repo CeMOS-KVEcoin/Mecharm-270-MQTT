@@ -75,8 +75,8 @@ def placeToPedestal(speed=40):
     home(speed)
 
 def release_servos(speed=40):
-    #home(speed)
-    #time.sleep(2)
+    print("releasing robot-servos now!")
+    time.sleep(2)
     robot.release()
 
 def show_angles():
