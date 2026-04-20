@@ -64,13 +64,14 @@ def on_disconnect(client, userdata, rc):
         reconnect_count += 1
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
 
-def publish_state(payload, state):
+def publish_state(payload, state, data=None):
     print(f"Publishing to {TOPIC_STATUS}: {payload}, {state}")
     logging.info("Publishing to %s with payload %s and state %s", TOPIC_STATUS, payload, state)
 
     client.publish(TOPIC_STATUS, json.dumps({
         "state": state,
         "msg": payload,
+        "data": data,
     }))
     return
 
@@ -96,11 +97,7 @@ def run_skill(topic, payload):
 
         elif payload == "get_angles":
             show_angles()
-            client.publish(TOPIC_STATUS, json.dumps({
-                "topic": TOPIC_STATUS,
-                "msg": payload,
-                "data": robot.get_angles(),
-            }))
+            publish_state(payload, "done", robot.get_angles())
 
         elif payload == "pickupFromConveyor1":
             publish_state(payload, "starting")
