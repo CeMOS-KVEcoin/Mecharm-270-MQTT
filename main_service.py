@@ -109,6 +109,11 @@ def run_skill(topic, payload):
             placeToConveyor2(40)
             publish_state(payload, "done")
 
+        elif payload == "placeToLaser":
+            publish_state(payload, "starting")
+            placeToLaser(40)
+            publish_state(payload, "done")
+
         elif payload == "release_servos":
             release_servos(40)
 
@@ -171,7 +176,6 @@ print("[Service] SRP MechArm MQTT Service gestartet")
 try:
     while True:
         time.sleep(5)
-       # publish_status(client, "idle")
 
 except KeyboardInterrupt:
     pass

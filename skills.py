@@ -13,9 +13,9 @@ def pickup(speed=40):
     time.sleep(2)
     home(speed)  
 
+#angles [x y z rx ry rz]
 def moveTo(angles, speed=40):
     robot.move_angles(angles, speed)
-    time.sleep(2)
 
 def home(speed=30):
     current_angles = robot.get_angles()
@@ -49,7 +49,8 @@ def placeToConveyor2(speed=40):
     home(speed)
 
 def placeToLaser(speed=40):
-    #tbd [160.66,83.58,-47.72,-2.63,-35.5,-93.95]
+    home(speed)
+    moveTo([160.66,83.58,-47.72,-2.63,-35.5,-93.95], speed)
     release()
     home(speed)
 
