@@ -107,6 +107,9 @@ def run_skill(topic, payload):
             placeToConveyor2(40)
             publish_state(payload, "done")
 
+        elif payload == "release_servos":
+            robot.release_servos()
+
         else:
             print("unknown command")
             client.publish(TOPIC_STATUS, json.dumps({
