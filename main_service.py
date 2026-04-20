@@ -141,6 +141,19 @@ def on_message(client, userdata, message):
         payload = message.payload.decode()
         #print(f"topic: {topic}, payload: {payload}, QoS={message.qos}")
 
+        # Control Commands IMMER durchlassen
+        if payload == "stop":
+            robot.stop()
+            return
+
+        elif payload == "pause":
+            robot.pause()
+            return
+
+        elif payload == "resume":
+            robot.resume()
+            return
+
         if skill_lock.locked():
             print("System busy")
             return
