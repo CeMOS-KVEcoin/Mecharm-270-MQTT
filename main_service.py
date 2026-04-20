@@ -9,8 +9,8 @@ import paho.mqtt.client as mqtt
 from skills import *
 from mqtt_config import *
 
-robot = RobotController()
-vacuum = VacuumController()
+#robot = RobotController()
+#vacuum = VacuumController()
 skill_lock = threading.Lock()
 
 FIRST_RECONNECT_DELAY = 1
@@ -95,6 +95,7 @@ def run_skill(topic, payload):
             publish_state(payload, "done")
 
         elif payload == "get_angles":
+            print(robot.get_angles())
             print("current angles: " + robot.get_angles())
 
         elif payload == "pickupFromConveyor1":
@@ -108,7 +109,7 @@ def run_skill(topic, payload):
             publish_state(payload, "done")
 
         elif payload == "release_servos":
-            robot.release_servos()
+            release_servos(40)
 
         else:
             print("unknown command")
