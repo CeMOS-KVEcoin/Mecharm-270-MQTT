@@ -1,11 +1,13 @@
 import os
 from dotenv import load_dotenv
 from pymycobot import MechArm270
+from pymycobot.genre import Coord, Angle
 
 load_dotenv()
 
 class RobotController:
     def __init__(self):
+        self.Angle = None
         port = os.getenv("SERIAL_PORT", "/dev/ttyAMA0")
         baud = int(os.getenv("BAUD", "1000000"))
         print(f"[Motion] Initialise MechArm at Port {port} with Baudrate {baud}")

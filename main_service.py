@@ -143,17 +143,16 @@ def on_message(client, userdata, message):
 
         # Control Commands IMMER durchlassen
         if payload == "stop":
-            robot.stop()
-            skill_lock.release()
-            return
+            val = robot.stop()
+            return val
 
         elif payload == "pause":
-            robot.pause()
-            return
+            val = robot.pause()
+            return val
 
         elif payload == "resume":
-            robot.resume()
-            return
+            val = robot.resume()
+            return val
 
         if skill_lock.locked():
             print("System busy")

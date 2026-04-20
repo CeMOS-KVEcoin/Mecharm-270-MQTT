@@ -57,9 +57,11 @@ def placeToLaser(speed=40):
     rx = current_angles[3]
     ry = current_angles[4]
     rz = current_angles[5]
-    moveTo([159, y, z, rx, ry, rz], speed)
+    moveTo([159.9, y, z, rx, ry, rz], speed)
+    #ang = robot.Angle.J1.value
+    #moveTo(ang, 160, 40)
     time.sleep(1)
-    moveTo([159,80,-47,0,-35.5,-89], speed)
+    moveTo([159.9,80,-47,0,-35.5,-90], speed)
     release()
     home(speed)
 
@@ -78,7 +80,6 @@ def placeToPedestal(speed=40):
     moveTo([-6, 25, 21.5, -10, -41, -179], 20)
     time.sleep(2)
 
-    #vacuum.off()
     release()
     time.sleep(4)
 
