@@ -144,6 +144,7 @@ def on_message(client, userdata, message):
         # Control Commands IMMER durchlassen
         if payload == "stop":
             val = robot.stop()
+            print(val)
             return val
 
         elif payload == "pause":
