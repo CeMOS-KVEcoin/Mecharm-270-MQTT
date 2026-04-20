@@ -133,7 +133,7 @@ def on_message(client, userdata, message):
     try:
         topic = message.topic
         payload = message.payload.decode()
-        #print(f"topic: {topic}, payload: {payload}, QoS={message.qos}")
+        print(f"topic: {topic}, payload: {payload}, QoS={message.qos}")
 
         if skill_lock.locked():
             print("System busy")
