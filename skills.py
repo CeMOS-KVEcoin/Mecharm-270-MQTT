@@ -58,7 +58,8 @@ def placeToLaser(speed=40):
     ry = current_angles[4]
     rz = current_angles[5]
     moveTo([159, y, z, rx, ry, rz], speed)
-    moveTo([159,83.58,-45,-2.63,-35.5,-89], speed)
+    time.sleep(1)
+    moveTo([159,80,-47,0,-35.5,-89], speed)
     release()
     home(speed)
 
