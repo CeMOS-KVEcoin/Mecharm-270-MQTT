@@ -50,6 +50,14 @@ def placeToConveyor2(speed=40):
 
 def placeToLaser(speed=40):
     home(speed)
+    current_angles = robot.get_angles()
+    x = current_angles[0]
+    y = current_angles[1]
+    z = current_angles[2]
+    rx = current_angles[3]
+    ry = current_angles[4]
+    rz = current_angles[5]
+    moveTo([160, y, z, rx, ry, rz], speed)
     moveTo([160.66,83.58,-47.72,-2.63,-35.5,-93.95], speed)
     release()
     home(speed)
