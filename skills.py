@@ -80,4 +80,4 @@ def release_servos(speed=40):
     robot.release()
 
 def show_angles():
-    return "Angles: {robot.get_angles()}"
+     print("Angles: {robot.get_angles()}")
