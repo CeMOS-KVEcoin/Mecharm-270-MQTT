@@ -78,41 +78,31 @@ def publish_state(payload, state, data=None):
 def run_skill(topic, payload):
     try:
         #print(f"Publishing to {topic}: {payload}")
-        #client.publish(TOPIC_STATUS, payload)
+        publish_state(payload, "starting")
+        data = None
 
         if payload == "home":
-            publish_state(payload, "starting")
             home()
-            publish_state(payload, "done")
 
         elif payload == "grip":
-            publish_state(payload, "starting")
             grip()
-            publish_state(payload, "done")
 
         elif payload == "release":
-            publish_state(payload, "starting")
             release()
-            publish_state(payload, "done")
 
         elif payload == "get_angles":
             show_angles()
-            publish_state(payload, "done", robot.get_angles())
+            #publish_state(payload, "done", robot.get_angles())
+            data = robot.get_angles()
 
         elif payload == "pickupFromConveyor1":
-            publish_state(payload, "starting")
             pickupFromConveyor1(40)
-            publish_state(payload, "done")
 
         elif payload == "placeToConveyor2":
-            publish_state(payload, "starting")
             placeToConveyor2(40)
-            publish_state(payload, "done")
 
         elif payload == "placeToLaser":
-            publish_state(payload, "starting")
             placeToLaser(40)
-            publish_state(payload, "done")
 
         elif payload == "release_servos":
             release_servos(40)
@@ -124,6 +114,8 @@ def run_skill(topic, payload):
                 "msg": f"unknown command {payload}",
             }))
             return
+
+        publish_state(payload, "done", data)
 
     except Exception as e:
         client.publish(TOPIC_STATUS, json.dumps({
@@ -143,6 +135,7 @@ def on_message(client, userdata, message):
 
         # Control Commands IMMER durchlassen
         if payload == "stop":
+            threading.Thread(target=run_skill, args=(topic, payload)).stop()
             val = robot.stop()
             print(val)
             return val
@@ -161,10 +154,13 @@ def on_message(client, userdata, message):
 
         skill_lock.acquire()
 
-        threading.Thread(
+        thread = threading.Thread(
             target=run_skill,
             args=(topic, payload)
-        ).start()
+        )
+
+        thread.start()
+        thread.join()
 
     except Exception as e:
         client.publish(TOPIC_STATUS, json.dumps({
