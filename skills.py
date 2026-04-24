@@ -6,6 +6,12 @@ from vacuum_controller import VacuumController
 robot = RobotController()
 vacuum = VacuumController()
 
+control_state = {
+    "stop": False,
+    "pause": False,
+    "resume": False,
+}
+
 ## basic skills
 
 def pickup(speed=40):
@@ -15,7 +21,18 @@ def pickup(speed=40):
 
 #angles [x y z rx ry rz]
 def moveTo(angles, speed=40):
+    if control_state["stop"]:
+        robot.stop()
+        print("Movement aborted")
+        return
+
     robot.move_angles(angles, speed)
+
+    if control_state["stop"]:
+        robot.stop()
+        print("Movement stopped mid-execution")
+        return
+
 
 def home(speed=30):
     current_angles = robot.get_angles()

@@ -126,6 +126,22 @@ def run_skill(topic, payload):
     finally:
         skill_lock.release()
 
+def handle_control(cmd):
+    if cmd == "stop":
+        control_state["stop"] = True
+        robot.stop()
+        publish_state(cmd, "done")
+
+    elif cmd == "pause":
+        control_state["pause"] = True
+        robot.pause()
+        publish_state(cmd, "done")
+
+    elif cmd == "resume":
+        control_state["pause"] = False
+        robot.resume()
+        publish_state(cmd, "done")
+
 
 def on_message(client, userdata, message):
     try:
@@ -134,19 +150,9 @@ def on_message(client, userdata, message):
         #print(f"topic: {topic}, payload: {payload}, QoS={message.qos}")
 
         # Control Commands IMMER durchlassen
-        if payload == "stop":
-            threading.Thread(target=run_skill, args=(topic, payload)).stop()
-            val = robot.stop()
-            print(val)
-            return val
-
-        elif payload == "pause":
-            val = robot.pause()
-            return val
-
-        elif payload == "resume":
-            val = robot.resume()
-            return val
+        if payload in ["stop", "pause", "resume"]:
+            handle_control(payload)
+            return
 
         if skill_lock.locked():
             print("System busy")
@@ -160,13 +166,17 @@ def on_message(client, userdata, message):
         )
 
         thread.start()
-        thread.join()
+        #thread.join()
 
     except Exception as e:
         client.publish(TOPIC_STATUS, json.dumps({
             "state": "error",
             "msg": str(e),
         }))
+
+    finally:
+        control_state["stop"] = False
+        control_state["pause"] = False
 
 
 # ================= START =================
