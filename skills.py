@@ -82,13 +82,20 @@ def placeToLaser(speed=40):
     release()
     home(speed)
 
-def turnChip(self, speed=40):
-    #move to podest A
-    #release
-    #move to podest B
-    #grip or pickup
-    #tbd
-    self.home(speed)
+def pickupFromLaser(speed=40):
+    home(speed)
+    current_angles = robot.get_angles()
+    x = current_angles[0]
+    y = current_angles[1]
+    z = current_angles[2]
+    rx = current_angles[3]
+    ry = current_angles[4]
+    rz = current_angles[5]
+    moveTo([159.9, y, z, rx, ry, rz], speed)
+    time.sleep(1)
+    moveTo([159.9, 80, -47, 0, -35.5, -90], speed)
+    grip()
+    home(speed)
 
 def placeToPedestal(speed=40):
     moveTo([0, 0, 0, 0, 0, -179], speed)
@@ -103,6 +110,24 @@ def placeToPedestal(speed=40):
     moveTo([5, 0, 20, 0, -10, -179], speed)
     time.sleep(2)
 
+    home(speed)
+
+def pickupFromPedestel(speed=40):
+    # tbd [-49.65,70.04,-43.85,-74,-49.57,56.16]
+    moveTo([-50, 0, 0, 0, 0, 0], speed)
+    time.sleep(0.5)
+    moveTo([-50, 70, -40, -74, -50, 56], speed)
+    grip()
+    time.sleep(2)
+    moveTo([-50, 0, 0, 0, 0, 0], speed)
+    time.sleep(1)
+
+    home(speed)
+
+def turnChip(speed=40):
+    placeToPedestal()
+    home(speed)
+    pickupFromPedastel(speed) # tbd
     home(speed)
 
 def release_servos(speed=40):
