@@ -107,6 +107,9 @@ def run_skill(topic, payload):
         elif payload == "release_servos":
             release_servos(40)
 
+        elif payload == "placeToPedestal":
+            placeToPedestal(40)
+
         else:
             print("unknown command")
             client.publish(TOPIC_STATUS, json.dumps({
