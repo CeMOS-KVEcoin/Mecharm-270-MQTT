@@ -92,7 +92,6 @@ def run_skill(topic, payload):
 
         elif payload == "get_angles":
             show_angles()
-            #publish_state(payload, "done", robot.get_angles())
             data = robot.get_angles()
 
         elif payload == "pickupFromConveyor1":
@@ -104,11 +103,17 @@ def run_skill(topic, payload):
         elif payload == "placeToLaser":
             placeToLaser(40)
 
+        elif payload == "pickupFromLaser":
+            pickupFromLaser(40)
+
         elif payload == "release_servos":
             release_servos(40)
 
         elif payload == "placeToPedestal":
             placeToPedestal(40)
+
+        elif payload == "pickupFromPedestal":
+            pickupFromPedestel(40)
 
         else:
             print("unknown command")
