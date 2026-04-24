@@ -116,7 +116,7 @@ def pickupFromPedestel(speed=40):
     # tbd [-49.65,70.04,-43.85,-74,-49.57,56.16]
     moveTo([-50, 0, 0, 0, 0, 0], speed)
     time.sleep(0.5)
-    moveTo([-50, 70, -40, -74, -50, 56], speed)
+    moveTo([-50, 70, -45, -74, -55, 56], speed)
     grip()
     time.sleep(2)
     moveTo([-50, 0, 0, 0, 0, 0], speed)
