@@ -119,7 +119,7 @@ def pickupFromPedestel(speed=40):
     moveTo([-49, 65, -45, -74, -55, 56], speed)
     grip()
     time.sleep(2)
-    moveTo([-50, 65, 0, -74, -55, 56], speed)
+    moveTo([-50, 0, -45, -74, -55, 56], speed)
     time.sleep(1)
     moveTo([-50, 0, 0, 0, 0, 0], speed)
     time.sleep(1)
