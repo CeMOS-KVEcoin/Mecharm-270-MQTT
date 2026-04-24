@@ -127,7 +127,7 @@ def pickupFromPedestel(speed=40):
 def turnChip(speed=40):
     placeToPedestal()
     home(speed)
-    pickupFromPedastel(speed) # tbd
+    pickupFromPedestel(speed) # tbd
     home(speed)
 
 def release_servos(speed=40):
