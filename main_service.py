@@ -96,6 +96,9 @@ def run_skill(topic, payload):
         elif payload == "pickupFromConveyor1":
             pickupFromConveyor1(40)
 
+        elif payload == "placeToConveyor1":
+            placeToConveyor1(40)
+
         elif payload == "pickupFromConveyor2":
             pickupFromConveyor2(40)
 

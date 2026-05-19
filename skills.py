@@ -54,6 +54,14 @@ def pickupFromConveyor1(speed=40):
 
     pickup(speed)
 
+def placeToConveyor1(speed=40):
+    moveTo([-151, 0, 0, 0, 0, -90], speed)
+    moveTo([-151, 0, 41, 0, -40, -90], speed)
+
+    release()
+    moveTo([-151, 0, 35, 0, -40, -90], speed)
+    time.sleep(2)
+    home(speed)
 
 def placeToConveyor2(speed=40):
     moveTo([132, 0, 0, 0, 0, -90], speed)
@@ -69,10 +77,7 @@ def pickupFromConveyor2(speed=40):
     moveTo([132, 0, 0, 0, 0, -90], speed)
     moveTo([132, 0, 39, 0, -40, -90], speed)
 
-    grip()
-    time.sleep(2)
-
-    home(speed)
+    pickup(speed)
 
 def placeToLaser(speed=40):
     home(speed)
