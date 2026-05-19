@@ -65,6 +65,15 @@ def placeToConveyor2(speed=40):
 
     home(speed)
 
+def pickupFromConveyor2(speed=40):
+    moveTo([132, 0, 0, 0, 0, -90], speed)
+    moveTo([132, 0, 39, 0, -40, -90], speed)
+
+    grip()
+    time.sleep(2)
+
+    home(speed)
+
 def placeToLaser(speed=40):
     home(speed)
     current_angles = robot.get_angles()
