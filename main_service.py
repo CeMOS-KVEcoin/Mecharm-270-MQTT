@@ -79,7 +79,7 @@ def run_skill(topic, payload):
     try:
         #print(f"Publishing to {topic}: {payload}")
         publish_state(payload, "starting")
-        data = None
+        data = robot.get_angles()
 
         if payload == "home":
             home()
@@ -92,10 +92,12 @@ def run_skill(topic, payload):
 
         elif payload == "get_angles":
             show_angles()
-            data = robot.get_angles()
 
         elif payload == "pickupFromConveyor1":
             pickupFromConveyor1(40)
+
+        elif payload == "pickupFromConveyor2":
+            pickupFromConveyor2(40)
 
         elif payload == "placeToConveyor2":
             placeToConveyor2(40)
