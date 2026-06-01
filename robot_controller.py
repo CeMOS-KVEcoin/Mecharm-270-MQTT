@@ -27,6 +27,9 @@ class RobotController:
     def get_angles(self):
         return self.mc.get_angles()
 
+    def send_angle(self, angle_value, degree, speed):
+        self.mc.send_angle(angle_value, degree, speed)
+
 ### Movement Control
 
     def jog_angle(self, joint_index, direction, speed=40): #(1,1,50) for example to move joint 1 in positive direction at speed 50

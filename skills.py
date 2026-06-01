@@ -2,6 +2,7 @@ import time
 
 from robot_controller import RobotController
 from vacuum_controller import VacuumController
+from pymycobot.genre import Coord, Angle
 
 robot = RobotController()
 vacuum = VacuumController()
@@ -82,16 +83,15 @@ def pickupFromConveyor2(speed=40):
 #[161.71,67.06,-12.74,-22.41,-62.13,-78.75]
 def placeToLaser(speed=40):
     home(speed)
-    current_angles = robot.get_angles()
-    x = current_angles[0]
-    y = current_angles[1]
-    z = current_angles[2]
-    rx = current_angles[3]
-    ry = current_angles[4]
-    rz = current_angles[5]
-    moveTo([159.9, y, z, rx, ry, rz], speed)
-    #ang = robot.Angle.J1.value
-    #moveTo(ang, 160, 40)
+    #current_angles = robot.get_angles()
+    #x = current_angles[0]
+    #y = current_angles[1]
+    #z = current_angles[2]
+    #rx = current_angles[3]
+    #ry = current_angles[4]
+    #rz = current_angles[5]
+    #moveTo([159.9, y, z, rx, ry, rz], speed)
+    robot.send_angle(Angle.J1.value, 159.9, speed)
     time.sleep(1)
     moveTo([159.9,60,-12,0,-60,-90], speed)
     time.sleep(1)
