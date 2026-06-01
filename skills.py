@@ -93,8 +93,10 @@ def placeToLaser(speed=40):
     #ang = robot.Angle.J1.value
     #moveTo(ang, 160, 40)
     time.sleep(1)
-    moveTo([159.9,70,-12,-20,-60,-90], speed)
+    moveTo([159.9,70,-12,-20,-50,-90], speed)
+    time.sleep(1)
     release()
+    time.sleep(2)
     home(speed)
 
 def pickupFromLaser(speed=40):
@@ -109,7 +111,9 @@ def pickupFromLaser(speed=40):
     moveTo([159.9, y, z, rx, ry, rz], speed)
     time.sleep(1)
     moveTo([159.9, 80, -47, 0, -35.5, -90], speed)
+    time.sleep(1)
     grip()
+    time.sleep(1)
     home(speed)
 
 def placeToPedestal(speed=40):
