@@ -79,6 +79,7 @@ def pickupFromConveyor2(speed=40):
 
     pickup(speed)
 
+#[161.71,67.06,-12.74,-22.41,-62.13,-78.75]
 def placeToLaser(speed=40):
     home(speed)
     current_angles = robot.get_angles()
@@ -92,7 +93,7 @@ def placeToLaser(speed=40):
     #ang = robot.Angle.J1.value
     #moveTo(ang, 160, 40)
     time.sleep(1)
-    moveTo([159.9,80,-47,0,-35.5,-90], speed)
+    moveTo([159.9,70,-12,-20,-60,-90], speed)
     release()
     home(speed)
 
