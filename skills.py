@@ -33,6 +33,11 @@ def reset_control():
     control_state["stop"] = False
     control_state["pause"] = False
 
+    try:
+        robot.resume()
+    except Exception as e:
+        print(f"[Control] robot.resume() beim Reset fehlgeschlagen: {e}")
+
 
 def check_abort():
     """Checkpoint, der vor/zwischen jeder Bewegung aufgerufen wird.
