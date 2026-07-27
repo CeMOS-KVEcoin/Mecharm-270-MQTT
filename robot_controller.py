@@ -40,11 +40,13 @@ class RobotController:
 
 ### Movement Control
 
-    def jog_angle(self, joint_index, direction, speed=40): #(1,1,50) for example to move joint 1 in positive direction at speed 50
-        self.mc.jog_angle(joint_index, direction, speed)
+    def jog_angle(self, joint_index, direction, speed=40):  # (1,1,50) for example to move joint 1 in positive direction at speed 50
+        with self._serial_lock:
+            self.mc.jog_angle(joint_index, direction, speed)
 
-    def jog_coord(self, axis_index, direction, speed=40): #(2,0,50) for example to move along Y-axis in negative direction at speed 50
-        self.mc.jog_coord(axis_index, direction, speed)
+    def jog_coord(self, axis_index, direction, speed=40):  # (2,0,50) for example to move along Y-axis in negative direction at speed 50
+        with self._serial_lock:
+            self.mc.jog_coord(axis_index, direction, speed)
 
     def stop(self):
         acquired = self._serial_lock.acquire(timeout=2)
