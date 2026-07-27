@@ -130,6 +130,10 @@ def run_skill(topic, payload):
 
         publish_state(payload, "done", data)
 
+    except SkillAborted:
+        print(f"[Skill] '{payload}' wurde per stop abgebrochen")
+        publish_state(payload, "stopped")
+
     except Exception as e:
         client.publish(TOPIC_STATUS, json.dumps({
             "state": "error",
@@ -141,18 +145,25 @@ def run_skill(topic, payload):
 
 def handle_control(cmd):
     if cmd == "stop":
+        # Reihenfolge wichtig: erst Events setzen, damit ein Skill-Thread,
+        # der gerade in pause_event.wait() haengt, sofort aufwacht und
+        # stop_event sieht. Danach den Arm auch physisch sofort anhalten.
         control_state["stop"] = True
+        stop_event.set()
+        pause_event.set()
         robot.stop()
         publish_state(cmd, "done")
 
     elif cmd == "pause":
         control_state["pause"] = True
+        pause_event.clear()
         robot.pause()
         publish_state(cmd, "done")
 
     elif cmd == "resume":
         control_state["pause"] = False
         robot.resume()
+        pause_event.set()
         publish_state(cmd, "done")
 
 
@@ -187,9 +198,9 @@ def on_message(client, userdata, message):
             "msg": str(e),
         }))
 
-    finally:
-        control_state["stop"] = False
-        control_state["pause"] = False
+    # finally:
+    #     control_state["stop"] = False
+    #     control_state["pause"] = False
 
 
 # ================= START =================
