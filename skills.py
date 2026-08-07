@@ -154,7 +154,7 @@ def pickupFromLaser(speed=40):
 #[-15.38,32.25,-59.85,-0.35,2.63,-96.59]
 # [-17.57,36.47,-60.64,-13.71,1.14,-80.94]
 def placeToChipFlipper(speed=40):
-    moveTo([0, 0, -60, 0, 0, -90], speed)
+    moveTo([0, 0, -30, 0, 0, -90], speed)
     time.sleep(1)
     moveTo([-20, 30, -60, 0, 2, -90], speed)
     time.sleep(1)
@@ -165,12 +165,13 @@ def placeToChipFlipper(speed=40):
 # [-20.65,29.35,-2.54,-5.36,-27.42,-90.79]
 def pickupFromChipFlipper(speed=40):
     moveTo([0, 0, 0, 0, 0, -90], speed)
+    robot.send_angle(Angle.J1.value, -20, speed)
     time.sleep(1)
     moveTo([-20, 25, 0, 0, -30, -90], speed)
     time.sleep(1)
     grip()
     time.sleep(2)
-    robot.send_angle(Angle.J3.value, -2, speed)
+    robot.send_angle(Angle.J5.value, -35, speed)
     home(speed)
 
 def placeToPedestal(speed=40):
