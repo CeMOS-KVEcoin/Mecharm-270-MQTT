@@ -168,11 +168,11 @@ def pickupFromChipFlipper(speed=40):
     moveTo([0, 0, 0, 0, 0, -90], speed)
     robot.send_angle(Angle.J1.value, -25, speed)
     time.sleep(1)
-    moveTo([-22, 25, 0, 0, -30, -90], speed)
+    moveTo([-21, 25, 0, 0, -30, -90], speed)
     time.sleep(1)
     grip()
     time.sleep(2)
-    moveTo([-22, 25, -10, 0, -40, -90], speed)
+    moveTo([-21, 20, -5, 0, -40, -90], speed)
     home(speed)
 
 def placeToPedestal(speed=40):
