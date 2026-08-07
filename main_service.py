@@ -4,31 +4,15 @@ import logging
 import threading
 import paho.mqtt.client as mqtt
 
-#from robot_controller import RobotController
-#from vacuum_controller import VacuumController
 from skills import *
 from mqtt_config import *
 
-#robot = RobotController()
-#vacuum = VacuumController()
 skill_lock = threading.Lock()
 
 FIRST_RECONNECT_DELAY = 1
 RECONNECT_RATE = 2
 MAX_RECONNECT_COUNT = 12
 MAX_RECONNECT_DELAY = 60
-
-# ================= STATUS =================
-
-# def publish_status(client, state="idle", extra=None):
-#     payload = {
-#         "state": state,
-#         "coords": robot.get_coords(),
-#         "extra": extra or {},
-#         "ts": time.time()
-#     }
-#     client.publish(TOPIC_STATUS, json.dumps(payload))
-
 
 # ================= MQTT =================
 
@@ -120,6 +104,12 @@ def run_skill(topic, payload):
         elif payload == "pickupFromPedestal":
             pickupFromPedestel(40)
 
+        elif payload == "placeToChipFlipper":
+            placeToChipFlipper(40)
+
+        elif payload == "pickupFromChipFlipper":
+            pickupFromChipFlipper(40)
+
         else:
             print("unknown command")
             client.publish(TOPIC_STATUS, json.dumps({
@@ -190,17 +180,12 @@ def on_message(client, userdata, message):
         )
 
         thread.start()
-        #thread.join()
 
     except Exception as e:
         client.publish(TOPIC_STATUS, json.dumps({
             "state": "error",
             "msg": str(e),
         }))
-
-    # finally:
-    #     control_state["stop"] = False
-    #     control_state["pause"] = False
 
 
 # ================= START =================
