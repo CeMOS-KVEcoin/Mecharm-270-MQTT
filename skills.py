@@ -156,11 +156,11 @@ def pickupFromLaser(speed=40):
 def placeToChipFlipper(speed=40):
     moveTo([0, 0, -30, 0, 0, -90], speed)
     time.sleep(1)
-    moveTo([-20, 30, -60, 0, 2, -90], speed)
+    moveTo([-20, 30, -55, 0, 2, -90], speed)
     time.sleep(1)
     release()
     time.sleep(2)
-    robot.send_angle(Angle.J3.value, -55, speed)
+    robot.send_angle(Angle.J3.value, -50, speed)
     home(speed)
 
 # [-20.65,29.35,-2.54,-5.36,-27.42,-90.79]
