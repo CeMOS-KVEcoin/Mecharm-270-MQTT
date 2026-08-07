@@ -149,11 +149,14 @@ def pickupFromLaser(speed=40):
     time.sleep(1)
     home(speed)
 
+#[0.52,13.18,-28.47,3.16,3.16,-98.7]
+#[-15.46,34.01,-59.85,-0.08,2.37,-96.5]
+#[-15.38,32.25,-59.85,-0.35,2.63,-96.59]
 # [-17.57,36.47,-60.64,-13.71,1.14,-80.94]
 def placeToChipFlipper(speed=40):
-    moveTo([0, 0, 0, 0, 0, -90], speed)
+    moveTo([0, 0, -70, 0, 0, -90], speed)
     time.sleep(1)
-    moveTo([-15, 35, -60, -15, 0, -90], speed)
+    moveTo([-15, 30, -60, 0, 0, -90], speed)
     time.sleep(1)
     release()
     time.sleep(2)
@@ -163,7 +166,7 @@ def placeToChipFlipper(speed=40):
 def pickupFromChipFlipper(speed=40):
     moveTo([0, 0, 0, 0, 0, -90], speed)
     time.sleep(1)
-    moveTo([-20, 30, 0, -5, -28, -90], speed)
+    moveTo([-20, 25, 0, 0, -30, -90], speed)
     time.sleep(1)
     grip()
     time.sleep(2)
