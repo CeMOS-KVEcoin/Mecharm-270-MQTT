@@ -132,7 +132,7 @@ def pickupFromConveyor2(speed=40):
 # [161.45,34.1,26.27,-8.87,-68.55,-87.97]
 # [161.36,92.02,-80.85,-1.14,-13.53,-85.78] -> J2 hoch
 def placeToLaser(speed=40):
-    moveTo([0, 0, -30, 0, 0, 159.9], speed)
+    moveTo([159.9, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
     moveTo([159.9, 30, 20, 0, -60, -90], speed)
     time.sleep(1)
@@ -142,12 +142,12 @@ def placeToLaser(speed=40):
     time.sleep(2)
     moveTo([159.9, 30, 20, 0, -60, -90], speed)
     time.sleep(1)
-    moveTo([0, 0, -30, 0, 0, 159.9], speed)
+    moveTo([159.9, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
     home(speed)
 
 def pickupFromLaser(speed=40):
-    moveTo([0, 0, -30, 0, 0, 159.9], speed)
+    moveTo([159.9, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
     moveTo([159.9, 30, 20, 0, -60, -90], speed)
     time.sleep(1)
@@ -157,7 +157,7 @@ def pickupFromLaser(speed=40):
     time.sleep(1)
     moveTo([159.9, 30, 20, 0, -60, -90], speed)
     time.sleep(1)
-    moveTo([0, 0, -30, 0, 0, 159.9], speed)
+    moveTo([159.9, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
     home(speed)
 
