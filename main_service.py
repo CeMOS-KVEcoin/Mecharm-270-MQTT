@@ -61,8 +61,8 @@ def publish_state(payload, state, data=None):
 
 def run_skill(topic, payload):
     try:
-        #print(f"Publishing to {topic}: {payload}")
         publish_state(payload, "starting")
+        reset_control()
         data = robot.get_angles()
 
         if payload == "home":

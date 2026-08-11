@@ -74,7 +74,8 @@ def pickup(speed=40):
     time.sleep(2)
     home(speed)  
 
-#angles [x y z rx ry rz]
+# coords [x y z rx ry rz] -> not used
+# angles [J1 J2 J3 J4 J5 J6]
 def moveTo(angles, speed=40):
     check_abort()
     robot.move_angles(angles, speed)
@@ -97,7 +98,7 @@ def release():
     vacuum.off()
 
 ## Service Skills
-
+# TODO anpassen
 def pickupFromConveyor1(speed=40):
     moveTo([-151, 0, 0, 0, 0, -90], speed)
     moveTo([-151, 0, 41, 0, -40, -90], speed)
@@ -129,8 +130,7 @@ def pickupFromConveyor2(speed=40):
 
     pickup(speed)
 
-# [161.45,34.1,26.27,-8.87,-68.55,-87.97]
-# [161.36,92.02,-80.85,-1.14,-13.53,-85.78] -> J2 hoch
+# TODO genau wenn Modell fertig und Laser in Vorrichtung steht
 def placeToLaser(speed=40):
     moveTo([159.9, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
