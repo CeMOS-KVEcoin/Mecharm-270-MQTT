@@ -20,6 +20,10 @@ def on_connect(client, userdata, flags, rc):
     if rc == 0 and client.is_connected():
         print(f"[MQTT] Connected (Code {rc})")
         client.subscribe(TOPIC_CMD)
+        publish_connection_state({
+            "state": "online",
+            "online": True,
+        })
 
         time.sleep(1)
         vacuum.off()
@@ -28,9 +32,17 @@ def on_connect(client, userdata, flags, rc):
         print("→ starting position set")
     else:
         print(f'Failed to connect, return code {rc}')
+        publish_connection_state({
+            "state": "offline",
+            "online": False,
+        })
 
 def on_disconnect(client, userdata, rc):
     logging.info("Disconnected with result code: %s", rc)
+    publish_connection_state({
+        "state": "offline",
+        "online": False,
+    })
     reconnect_count, reconnect_delay = 0, FIRST_RECONNECT_DELAY
     while reconnect_count < MAX_RECONNECT_COUNT:
         logging.info("Reconnecting in %d seconds...", reconnect_delay)
@@ -39,6 +51,10 @@ def on_disconnect(client, userdata, rc):
         try:
             client.reconnect()
             logging.info("Reconnected successfully!")
+            publish_connection_state({
+                "state": "online",
+                "online": True,
+            })
             return
         except Exception as err:
             logging.error("%s. Reconnect failed. Retrying...", err)
@@ -47,6 +63,9 @@ def on_disconnect(client, userdata, rc):
         reconnect_delay = min(reconnect_delay, MAX_RECONNECT_DELAY)
         reconnect_count += 1
     logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
+
+def publish_connection_state(payload):
+    client.publish(TOPIC_CONNECTION, json.dumps(payload),retain=True)
 
 def publish_state(payload, state, data=None):
     print(f"Publishing to {TOPIC_STATUS}: {payload}, {state}")
@@ -161,7 +180,6 @@ def on_message(client, userdata, message):
     try:
         topic = message.topic
         payload = message.payload.decode()
-        #print(f"topic: {topic}, payload: {payload}, QoS={message.qos}")
 
         # Control Commands IMMER durchlassen
         if payload in ["stop", "pause", "resume"]:
