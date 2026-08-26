@@ -77,7 +77,7 @@ def publish_state(payload, state, data=None):
     }))
     return
 
-def run_skill(payload):
+def run_skill(payload, speed):
     try:
         publish_state(payload, "starting")
         reset_control()
@@ -96,37 +96,37 @@ def run_skill(payload):
             show_angles()
 
         elif payload == "pickupFromConveyor1":
-            pickupFromConveyor1(40)
+            pickupFromConveyor1(speed)
 
         elif payload == "placeToConveyor1":
-            placeToConveyor1(40)
+            placeToConveyor1(speed)
 
         elif payload == "pickupFromConveyor2":
-            pickupFromConveyor2(40)
+            pickupFromConveyor2(speed)
 
         elif payload == "placeToConveyor2":
-            placeToConveyor2(40)
+            placeToConveyor2(speed)
 
         elif payload == "placeToLaser":
-            placeToLaser(40)
+            placeToLaser(speed)
 
         elif payload == "pickupFromLaser":
-            pickupFromLaser(40)
+            pickupFromLaser(speed)
 
         elif payload == "release_servos":
-            release_servos(40)
+            release_servos(speed)
 
         elif payload == "placeToPedestal":
-            placeToPedestal(40)
+            placeToPedestal(speed)
 
         elif payload == "pickupFromPedestal":
-            pickupFromPedestel(40)
+            pickupFromPedestel(speed)
 
         elif payload == "placeToChipFlipper":
-            placeToChipFlipper(40)
+            placeToChipFlipper(speed)
 
         elif payload == "pickupFromChipFlipper":
-            pickupFromChipFlipper(40)
+            pickupFromChipFlipper(speed)
 
         else:
             print("unknown command")
@@ -171,6 +171,7 @@ def handle_control(cmd):
 def on_message(client, userdata, message):
     try:
         payload = message.payload.decode()
+        speed = 40
 
         # Control Commands IMMER durchlassen
         if payload in ["stop", "pause", "resume"]:
@@ -185,7 +186,7 @@ def on_message(client, userdata, message):
 
         thread = threading.Thread(
             target=run_skill,
-            args=payload
+            args=(payload, speed)
         )
 
         thread.start()
