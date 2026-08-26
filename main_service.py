@@ -170,7 +170,6 @@ def handle_control(cmd):
 
 def on_message(client, userdata, message):
     try:
-        topic = message.topic
         payload = message.payload.decode()
 
         # Control Commands IMMER durchlassen
@@ -186,7 +185,7 @@ def on_message(client, userdata, message):
 
         thread = threading.Thread(
             target=run_skill,
-            args=(payload)
+            args=payload
         )
 
         thread.start()
