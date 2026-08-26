@@ -68,7 +68,6 @@ def publish_connection_state(payload):
     client.publish(TOPIC_CONNECTION, json.dumps(payload),retain=True)
 
 def publish_state(payload, state, data=None):
-    print(f"Publishing to {TOPIC_STATUS}: {payload}, {state}")
     logging.info("Publishing to %s with payload %s and state %s", TOPIC_STATUS, payload, state)
 
     client.publish(TOPIC_STATUS, json.dumps({
@@ -78,7 +77,7 @@ def publish_state(payload, state, data=None):
     }))
     return
 
-def run_skill(topic, payload):
+def run_skill(payload):
     try:
         publish_state(payload, "starting")
         reset_control()
@@ -131,10 +130,7 @@ def run_skill(topic, payload):
 
         else:
             print("unknown command")
-            client.publish(TOPIC_STATUS, json.dumps({
-                "state": "error",
-                "msg": f"unknown command {payload}",
-            }))
+            publish_state(f"unknown command: {payload}", "error")
             return
 
         publish_state(payload, "done", data)
@@ -144,11 +140,7 @@ def run_skill(topic, payload):
         publish_state(payload, "stopped")
 
     except Exception as e:
-        client.publish(TOPIC_STATUS, json.dumps({
-            "state": "error",
-            "msg": str(e),
-            "cmd": payload,
-        }))
+        publish_state(str(e), "error")
     finally:
         skill_lock.release()
 
@@ -194,16 +186,13 @@ def on_message(client, userdata, message):
 
         thread = threading.Thread(
             target=run_skill,
-            args=(topic, payload)
+            args=(payload)
         )
 
         thread.start()
 
     except Exception as e:
-        client.publish(TOPIC_STATUS, json.dumps({
-            "state": "error",
-            "msg": str(e),
-        }))
+        publish_state(str(e), "error")
 
 
 # ================= START =================
