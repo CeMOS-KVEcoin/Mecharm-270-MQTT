@@ -67,6 +67,7 @@ def on_disconnect(client, userdata, rc):
 def publish_connection_state(payload):
     client.publish(TOPIC_CONNECTION, json.dumps(payload),retain=True)
 
+# TODO angles als angles cmd als payload und msg irgendwas anderes. Auf jedenfall Einheitlich
 def publish_state(payload, state, data=None):
     logging.info("Publishing to %s with payload %s and state %s", TOPIC_STATUS, payload, state)
 
