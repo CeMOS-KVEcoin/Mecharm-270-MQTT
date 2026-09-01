@@ -87,11 +87,6 @@ def run_skill(payload, speed):
             reset_control()
             args = payload.get("args", {})
             skill(**args)
-            # skillset[payload]()
-        # TODO payload als json übergeben
-
-        # elif payload == "moveAngle":
-        #     moveAngle("J1", 5, 30)
 
         else:
             print("unknown command")
@@ -180,6 +175,7 @@ skillset = {
     "pickupFromLaser": pickupFromLaser,
     "placeToChipFlipper": placeToChipFlipper,
     "pickupFromChipFlipper": pickupFromChipFlipper,
+    "moveAngle": moveAngle,
 }
 
 # ================= START =================

@@ -79,6 +79,13 @@ angle_joints = {
 ## ========= basic skills ==========
 
 def moveAngle(joint="J1", angle=0, speed=30):
+    """
+    Moves one joint of the robot seperately
+    :param joint: J1 to J6 as string
+    :param angle: degree as integer, example: 20
+    :param speed: int
+    :return:
+    """
     if joint in angle_joints:
         robot.send_angle(angle_joints[joint], angle, speed)
 
