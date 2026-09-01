@@ -30,6 +30,7 @@ def on_connect(client, userdata, flags, rc):
         home(40)
         print(robot.get_angles())
         print("→ starting position set")
+        publish_state("home", "done", 40, robot.get_angles())
     else:
         print(f'Failed to connect, return code {rc}')
         publish_connection_state({
@@ -81,13 +82,35 @@ def publish_state(payload, state, speed=0, data=None):
 def run_skill(payload, speed):
     try:
         data = robot.get_angles()
-        if payload in skillset:
-            publish_state(payload, "starting", speed, data)
+        skill = skillset.get(payload["skill"])
+        if skill:
+            publish_state(skill, "starting", speed, data)
             reset_control()
-            skillset[payload]()
+            skill(**payload["args"])
+            # skillset[payload]()
+        # TODO payload als json übergeben
+        #  skill = skillset.get(payload["skill"])
+        #
+        #  if skill:
+        #     skill(**payload["args"])
+        # Bsp: {
+        #     "skill": "home",
+        #     "args": {
+        #         "speed": 40
+        #     }
+        # }
+        # or
+        # {
+        #     "skill": "moveAngle",
+        #     "args": {
+        #         "speed": 40,
+        #          "joint": "J1",
+        #           "angle": 20,
+        #     }
+        # }
 
-        elif payload == "moveAngle":
-            moveAngle("J1", 2, 30)
+        # elif payload == "moveAngle":
+        #     moveAngle("J1", 5, 30)
 
         else:
             print("unknown command")
