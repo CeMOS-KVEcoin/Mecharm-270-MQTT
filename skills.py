@@ -105,7 +105,8 @@ def release():
 ## Service Skills
 def pickupFromConveyor1(speed=40):
     moveTo([-151, 0, 0, 0, 0, -90], speed)
-    moveTo([-151, 0, 35, 0, -30, -90], speed)
+    moveTo([-151, 0, 30, 0, -20, -90], speed)
+    time.sleep(1)
     moveTo([-151, 0, 41, 0, -40, -90], speed)
 
     grip()
@@ -114,7 +115,8 @@ def pickupFromConveyor1(speed=40):
 
 def placeToConveyor1(speed=40):
     moveTo([-151, 0, 0, 0, 0, -90], speed)
-    moveTo([-151, 0, 35, 0, -30, -90], speed)
+    moveTo([-151, 0, 30, 0, -20, -90], speed)
+    time.sleep(1)
     moveTo([-151, 0, 41, 0, -40, -90], speed)
 
     release()
