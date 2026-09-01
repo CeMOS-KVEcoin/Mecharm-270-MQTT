@@ -229,3 +229,4 @@ except KeyboardInterrupt:
 finally:
     vacuum.cleanup()
     client.loop_stop()
+    client.disconnect()

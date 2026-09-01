@@ -74,6 +74,11 @@ def pickup(speed=40):
     time.sleep(2)
     home(speed)  
 
+def placeTo(speed=40):
+    release()
+    time.sleep(2)
+    home(speed)
+
 # coords [x y z rx ry rz] -> not used
 # angles [J1 J2 J3 J4 J5 J6]
 def moveTo(angles, speed=40):
@@ -102,10 +107,13 @@ def pickupFromConveyor1(speed=40):
     moveTo([-151, 0, 0, 0, 0, -90], speed)
     moveTo([-151, 0, 41, 0, -40, -90], speed)
 
-    pickup(speed)
+    grip()
+    time.sleep(2)
+    home(speed)
 
 def placeToConveyor1(speed=40):
     moveTo([-151, 0, 0, 0, 0, -90], speed)
+    moveTo([-151, 0, 41, 0, -30, -90], speed)
     moveTo([-151, 0, 41, 0, -40, -90], speed)
 
     release()
@@ -114,50 +122,53 @@ def placeToConveyor1(speed=40):
     home(speed)
 
 def placeToConveyor2(speed=40):
-    moveTo([132, 0, 0, 0, 0, -90], speed)
+    moveTo([132, 0, -30, 0, 0, -90], speed)
     moveTo([132, 0, 39, 0, -40, -90], speed)
 
     release()
     moveTo([132, 0, 35, 0, -40, -90], speed)
     time.sleep(2)
-
+    moveTo([132, 0, -30, 0, 0, -90], speed)
     home(speed)
 
 def pickupFromConveyor2(speed=40):
-    moveTo([132, 0, 0, 0, 0, -90], speed)
+    moveTo([132, 0, -30, 0, 0, -90], speed)
     moveTo([132, 0, 39, 0, -40, -90], speed)
 
-    pickup(speed)
+    grip()
+    time.sleep(2)
+    moveTo([132, 0, -30, 0, 0, -90], speed)
+    home(speed)
 
 # TODO genau wenn Modell fertig und Laser in Vorrichtung steht
 #  Überdreht manchmal über 160° - verbessern!!
 def placeToLaser(speed=40):
-    moveTo([159.9, 0, -30, 0, 0, 0], speed)
+    moveTo([158, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
-    moveTo([159.9, 30, 20, 0, -60, -90], speed)
+    moveTo([158, 30, 20, 0, -60, -90], speed)
     time.sleep(1)
-    moveTo([159.9, 90, -80, 0, -10, -90], speed)
+    moveTo([158, 90, -80, 0, -10, -90], speed)
     time.sleep(1)
     release()
     time.sleep(2)
-    moveTo([159.9, 30, 20, 0, -60, -90], speed)
+    moveTo([158, 30, 20, 0, -60, -90], speed)
     time.sleep(1)
-    moveTo([159.9, 0, -30, 0, 0, 0], speed)
+    moveTo([158, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
     home(speed)
 
 def pickupFromLaser(speed=40):
-    moveTo([159.9, 0, -30, 0, 0, 0], speed)
+    moveTo([158, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
-    moveTo([159.9, 30, 20, 0, -60, -90], speed)
+    moveTo([158, 30, 20, 0, -60, -90], speed)
     time.sleep(1)
-    moveTo([159.9, 90, -80, 0, -10, -90], speed)
+    moveTo([158, 90, -80, 0, -10, -90], speed)
     time.sleep(1)
     grip()
     time.sleep(1)
-    moveTo([159.9, 30, 20, 0, -60, -90], speed)
+    moveTo([158, 30, 20, 0, -60, -90], speed)
     time.sleep(1)
-    moveTo([159.9, 0, -30, 0, 0, 0], speed)
+    moveTo([158, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
     home(speed)
 
