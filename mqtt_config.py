@@ -8,6 +8,8 @@ MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
 MQTT_USER = os.getenv("MQTT_USER")
 MQTT_PASS = os.getenv("MQTT_PASS")
 
+CLIENT_ID = "robot-mecharm"
+
 TOPIC_CMD = "mecharm/command"
 TOPIC_STATUS = "mecharm/status"
 TOPIC_CONNECTION = "mecharm/connection"
