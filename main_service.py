@@ -67,73 +67,31 @@ def on_disconnect(client, userdata, rc):
 def publish_connection_state(payload):
     client.publish(TOPIC_CONNECTION, json.dumps(payload),retain=True)
 
-def publish_state(payload, state, data=None):
+def publish_state(payload, state, speed=0, data=None):
     logging.info("Publishing to %s with payload %s and state %s", TOPIC_STATUS, payload, state)
 
     client.publish(TOPIC_STATUS, json.dumps({
         "state": state,
         "msg": payload,
-        "data": data,
+        "speed": speed,
+        "angles": data,
     }))
     return
 
 def run_skill(payload, speed):
     try:
-        publish_state(payload, "starting")
-        reset_control()
-        data = robot.get_angles()
-
-        if payload == "home":
-            home()
-
-        elif payload == "grip":
-            grip()
-
-        elif payload == "release":
-            release()
-
-        elif payload == "get_angles":
-            show_angles()
-
-        elif payload == "pickupFromConveyor1":
-            pickupFromConveyor1(speed)
-
-        elif payload == "placeToConveyor1":
-            placeToConveyor1(speed)
-
-        elif payload == "pickupFromConveyor2":
-            pickupFromConveyor2(speed)
-
-        elif payload == "placeToConveyor2":
-            placeToConveyor2(speed)
-
-        elif payload == "placeToLaser":
-            placeToLaser(speed)
-
-        elif payload == "pickupFromLaser":
-            pickupFromLaser(speed)
-
-        elif payload == "release_servos":
-            release_servos(speed)
-
-        elif payload == "placeToPedestal":
-            placeToPedestal(speed)
-
-        elif payload == "pickupFromPedestal":
-            pickupFromPedestel(speed)
-
-        elif payload == "placeToChipFlipper":
-            placeToChipFlipper(speed)
-
-        elif payload == "pickupFromChipFlipper":
-            pickupFromChipFlipper(speed)
+        if payload in skillset:
+            publish_state(payload, "starting", speed)
+            reset_control()
+            data = robot.get_angles()
+            skillset[payload]()
 
         else:
             print("unknown command")
             publish_state(f"unknown command: {payload}", "error")
             return
 
-        publish_state(payload, "done", data)
+        publish_state(payload, "done",0, data)
 
     except SkillAborted:
         print(f"[Skill] '{payload}' wurde per stop abgebrochen")
@@ -194,6 +152,22 @@ def on_message(client, userdata, message):
     except Exception as e:
         publish_state(str(e), "error")
 
+
+skillset = {
+    "home": home,
+    "grip": grip,
+    "release": release,
+    "release_servos": release_servos,
+    "get_angles": show_angles,
+    "pickupFromConveyor1": pickupFromConveyor1,
+    "placeToConveyor1": placeToConveyor1,
+    "pickupFromConveyor2": pickupFromConveyor2,
+    "placeToConveyor2": placeToConveyor2,
+    "placeToLaser": placeToLaser,
+    "pickupFromLaser": pickupFromLaser,
+    "placeToChipFlipper": placeToChipFlipper,
+    "pickupFromChipFlipper": pickupFromChipFlipper,
+}
 
 # ================= START =================
 

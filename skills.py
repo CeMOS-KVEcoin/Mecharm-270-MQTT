@@ -106,7 +106,7 @@ def release():
 def pickupFromConveyor1(speed=40):
     moveTo([-150.5, 0, 0, 0, 0, -90], speed)
     time.sleep(1)
-    moveTo([-150.5, 0, 30, 0, -40, -90], speed)
+    moveTo([-150.5, 0, 35, 0, -40, -90], speed)
     time.sleep(1)
     moveTo([-150.5, 0, 41, 0, -40, -90], speed)
     grip()
@@ -116,7 +116,7 @@ def pickupFromConveyor1(speed=40):
 def placeToConveyor1(speed=40):
     moveTo([-150.5, 0, 0, 0, 0, -90], speed)
     time.sleep(1)
-    moveTo([-150.5, 0, 30, 0, -40, -90], speed)
+    moveTo([-150.5, 0, 35, 0, -40, -90], speed)
     time.sleep(1)
     moveTo([-150.5, 0, 41, 0, -40, -90], speed)
     release()
@@ -132,6 +132,8 @@ def placeToConveyor2(speed=40):
     moveTo([132, 0, 35, 0, -40, -90], speed)
     time.sleep(2)
     moveTo([132, 0, -30, 0, 0, -90], speed)
+    time.sleep(1)
+    moveTo([0, 0, -30, 0, 0, -90], speed)
     home(speed)
 
 def pickupFromConveyor2(speed=40):
@@ -141,6 +143,8 @@ def pickupFromConveyor2(speed=40):
     grip()
     time.sleep(2)
     moveTo([132, 0, -30, 0, 0, -90], speed)
+    time.sleep(1)
+    moveTo([0, 0, -30, 0, 0, -90], speed)
     home(speed)
 
 # TODO genau wenn Modell fertig und Laser in Vorrichtung steht
@@ -215,7 +219,7 @@ def placeToPedestal(speed=40):
     home(speed)
 
 # deprecated
-def pickupFromPedestel(speed=40):
+def pickupFromPedestal(speed=40):
     # tbd [-49.65,70.04,-43.85,-74,-49.57,56.16]
     moveTo([-50, 0, 0, 0, 0, 0], speed)
     time.sleep(0.5)
@@ -226,13 +230,13 @@ def pickupFromPedestel(speed=40):
     time.sleep(1)
     moveTo([-50, 0, 0, 0, 0, 0], speed)
     time.sleep(1)
-
     home(speed)
 
+# TODO
 def turnChip(speed=40):
     placeToPedestal()
     home(speed)
-    pickupFromPedestel(speed) # tbd
+    pickupFromPedestal(speed) # tbd
     home(speed)
 
 def release_servos(speed=40):
