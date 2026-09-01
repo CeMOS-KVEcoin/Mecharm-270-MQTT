@@ -79,10 +79,9 @@ def publish_state(payload, state, data=None):
 
 def run_skill(payload, speed):
     try:
-        data = robot.get_angles()
         skill = skillset.get(payload["skill"])
         if skill:
-            publish_state(payload, "starting", data)
+            publish_state(payload, "starting", robot.get_angles())
             reset_control()
             args = payload.get("args", {})
             skill(**args)
@@ -92,7 +91,7 @@ def run_skill(payload, speed):
             publish_state(payload, "error - unknown command")
             return
 
-        publish_state(payload, "done", data)
+        publish_state(payload, "done", robot.get_angles())
 
     except SkillAborted:
         print(f"[Skill] '{payload}' wurde per stop abgebrochen")
