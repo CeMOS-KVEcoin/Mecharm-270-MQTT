@@ -24,11 +24,10 @@ def on_connect(client, userdata, flags, rc):
             "state": "online",
             "online": True,
         })
-
+        logging.info("Connected with result code: " + str(rc))
         time.sleep(1)
         vacuum.off()
         home(40)
-        print(robot.get_angles())
         print("→ starting position set")
         publish_state("home", "done", 40, robot.get_angles())
     else:
