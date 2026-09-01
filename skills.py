@@ -104,32 +104,30 @@ def release():
 
 ## Service Skills
 def pickupFromConveyor1(speed=40):
-    moveTo([-151, 0, 0, 0, 0, -90], speed)
+    moveTo([-150.5, 0, 0, 0, 0, -90], speed)
     time.sleep(1)
-    moveTo([-151, 0, 30, 0, -10, -90], speed)
+    moveTo([-150.5, 0, 30, 0, -40, -90], speed)
     time.sleep(1)
-    moveTo([-151, 0, 41, 0, -40, -90], speed)
-
+    moveTo([-150.5, 0, 41, 0, -40, -90], speed)
     grip()
     time.sleep(2)
     home(speed)
 
 def placeToConveyor1(speed=40):
-    moveTo([-151, 0, 0, 0, 0, -90], speed)
+    moveTo([-150.5, 0, 0, 0, 0, -90], speed)
     time.sleep(1)
-    moveTo([-151, 0, 30, 0, -10, -90], speed)
+    moveTo([-150.5, 0, 30, 0, -40, -90], speed)
     time.sleep(1)
-    moveTo([-151, 0, 41, 0, -40, -90], speed)
-
+    moveTo([-150.5, 0, 41, 0, -40, -90], speed)
     release()
-    moveTo([-151, 0, 35, 0, -40, -90], speed)
+    moveTo([-150.5, 0, 35, 0, -40, -90], speed)
     time.sleep(2)
     home(speed)
 
 def placeToConveyor2(speed=40):
     moveTo([132, 0, -30, 0, 0, -90], speed)
+    time.sleep(1)
     moveTo([132, 0, 39, 0, -40, -90], speed)
-
     release()
     moveTo([132, 0, 35, 0, -40, -90], speed)
     time.sleep(2)
@@ -138,8 +136,8 @@ def placeToConveyor2(speed=40):
 
 def pickupFromConveyor2(speed=40):
     moveTo([132, 0, -30, 0, 0, -90], speed)
+    time.sleep(1)
     moveTo([132, 0, 39, 0, -40, -90], speed)
-
     grip()
     time.sleep(2)
     moveTo([132, 0, -30, 0, 0, -90], speed)
