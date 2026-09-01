@@ -154,11 +154,12 @@ def handle_control(cmd):
 
 def on_message(client, userdata, message):
     try:
-        payload = message.payload.decode()
+        # payload = message.payload.decode()
+        payload = json.loads(message.payload)
         speed = 40
 
         # Control Commands IMMER durchlassen
-        if payload in ["stop", "pause", "resume"]:
+        if payload["skill"] in ["stop", "pause", "resume"]:
             handle_control(payload)
             return
 
