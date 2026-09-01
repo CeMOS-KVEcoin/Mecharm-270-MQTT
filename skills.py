@@ -67,7 +67,20 @@ def interruptible_sleep(seconds):
             return
         time.sleep(min(0.1, remaining))
 
-## basic skills
+angle_joints = {
+    "J1": Angle.J1.value,
+    "J2": Angle.J2.value,
+    "J3": Angle.J3.value,
+    "J4": Angle.J4.value,
+    "J5": Angle.J5.value,
+    "J6": Angle.J6.value
+}
+
+## ========= basic skills ==========
+
+def moveAngle(joint="J1", angle=0, speed=30):
+    if joint in angle_joints:
+        robot.send_angle(angle_joints[joint], angle, speed)
 
 def pickup(speed=40):
     grip()

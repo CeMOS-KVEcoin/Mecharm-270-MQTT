@@ -80,15 +80,18 @@ def publish_state(payload, state, speed=0, data=None):
 
 def run_skill(payload, speed):
     try:
+        data = robot.get_angles()
         if payload in skillset:
-            publish_state(payload, "starting", speed)
+            publish_state(payload, "starting", speed, data)
             reset_control()
-            data = robot.get_angles()
             skillset[payload]()
+
+        elif payload == "moveAngle":
+            moveAngle("J1", 2, 30)
 
         else:
             print("unknown command")
-            publish_state(f"unknown command: {payload}", "error")
+            publish_state(payload, "error - unknown command")
             return
 
         publish_state(payload, "done",0, data)
