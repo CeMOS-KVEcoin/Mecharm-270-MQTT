@@ -201,11 +201,21 @@ def on_message(client, userdata, message):
 client = mqtt.Client()
 client.username_pw_set(MQTT_USER, MQTT_PASS)
 
+client.will_set(
+    TOPIC_CONNECTION,
+    payload=json.dumps({
+        "state": "offline",
+        "online": False,
+    }),
+    qos=1,
+    retain=True
+)
+
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
 client.on_message = on_message
 
-client.connect(MQTT_BROKER, MQTT_PORT)
+client.connect(MQTT_BROKER, MQTT_PORT, keepalive=60)
 client.loop_start()
 
 print("[Service] SRP MechArm MQTT Service gestartet")

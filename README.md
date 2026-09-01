@@ -43,3 +43,14 @@ VACUUM_ON_PIN=20
 VACUUM_OFF_PIN=21
 ````
 
+## MQTT Topics:
+
+````python
+TOPIC_CMD = "mecharm/command"
+TOPIC_STATUS = "mecharm/status"
+TOPIC_CONNECTION = "mecharm/connection"
+````
+
+## Winkel des Mecharm 270 PI
+
+<img src="images/Mecharm_angles.jpeg" width="500">

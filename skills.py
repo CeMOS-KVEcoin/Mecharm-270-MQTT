@@ -98,7 +98,6 @@ def release():
     vacuum.off()
 
 ## Service Skills
-# TODO anpassen
 def pickupFromConveyor1(speed=40):
     moveTo([-151, 0, 0, 0, 0, -90], speed)
     moveTo([-151, 0, 41, 0, -40, -90], speed)
@@ -131,6 +130,7 @@ def pickupFromConveyor2(speed=40):
     pickup(speed)
 
 # TODO genau wenn Modell fertig und Laser in Vorrichtung steht
+#  Überdreht manchmal über 160° - verbessern!!
 def placeToLaser(speed=40):
     moveTo([159.9, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
