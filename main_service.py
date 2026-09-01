@@ -83,30 +83,12 @@ def run_skill(payload, speed):
         data = robot.get_angles()
         skill = skillset.get(payload["skill"])
         if skill:
-            publish_state(skill, "starting", speed, data)
+            publish_state(payload, "starting", speed, data)
             reset_control()
-            skill(**payload["args"])
+            args = payload.get("args", {})
+            skill(**args)
             # skillset[payload]()
         # TODO payload als json übergeben
-        #  skill = skillset.get(payload["skill"])
-        #
-        #  if skill:
-        #     skill(**payload["args"])
-        # Bsp: {
-        #     "skill": "home",
-        #     "args": {
-        #         "speed": 40
-        #     }
-        # }
-        # or
-        # {
-        #     "skill": "moveAngle",
-        #     "args": {
-        #         "speed": 40,
-        #          "joint": "J1",
-        #           "angle": 20,
-        #     }
-        # }
 
         # elif payload == "moveAngle":
         #     moveAngle("J1", 5, 30)
@@ -160,7 +142,7 @@ def on_message(client, userdata, message):
 
         # Control Commands IMMER durchlassen
         if payload["skill"] in ["stop", "pause", "resume"]:
-            handle_control(payload)
+            handle_control(payload["skill"])
             return
 
         if skill_lock.locked():
@@ -175,6 +157,10 @@ def on_message(client, userdata, message):
         )
 
         thread.start()
+
+    except json.JSONDecodeError:
+        logging.error("Invalid JSON received: %s", message.payload)
+        publish_state("invalid JSON", "error")
 
     except Exception as e:
         publish_state(str(e), "error")
