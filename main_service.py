@@ -29,7 +29,7 @@ def on_connect(client, userdata, flags, rc):
         vacuum.off()
         home(40)
         print("→ starting position set")
-        publish_state("home", "done", 40, robot.get_angles())
+        publish_state("home", "done", robot.get_angles())
     else:
         print(f'Failed to connect, return code {rc}')
         publish_connection_state({
@@ -67,13 +67,12 @@ def on_disconnect(client, userdata, rc):
 def publish_connection_state(payload):
     client.publish(TOPIC_CONNECTION, json.dumps(payload),retain=True)
 
-def publish_state(payload, state, speed=0, data=None):
+def publish_state(payload, state, data=None):
     logging.info("Publishing to %s with payload %s and state %s", TOPIC_STATUS, payload, state)
 
     client.publish(TOPIC_STATUS, json.dumps({
         "state": state,
         "msg": payload,
-        "speed": speed,
         "angles": data,
     }))
     return
@@ -83,7 +82,7 @@ def run_skill(payload, speed):
         data = robot.get_angles()
         skill = skillset.get(payload["skill"])
         if skill:
-            publish_state(payload, "starting", speed, data)
+            publish_state(payload, "starting", data)
             reset_control()
             args = payload.get("args", {})
             skill(**args)
@@ -93,7 +92,7 @@ def run_skill(payload, speed):
             publish_state(payload, "error - unknown command")
             return
 
-        publish_state(payload, "done",0, data)
+        publish_state(payload, "done", data)
 
     except SkillAborted:
         print(f"[Skill] '{payload}' wurde per stop abgebrochen")
@@ -130,7 +129,6 @@ def handle_control(cmd):
 
 def on_message(client, userdata, message):
     try:
-        # payload = message.payload.decode()
         payload = json.loads(message.payload)
         speed = 40
         logging.info("Received message: %s", payload)
