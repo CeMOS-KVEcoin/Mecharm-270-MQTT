@@ -157,6 +157,7 @@ def on_message(client, userdata, message):
         # payload = message.payload.decode()
         payload = json.loads(message.payload)
         speed = 40
+        logging.info("Received message: %s", payload)
 
         # Control Commands IMMER durchlassen
         if payload["skill"] in ["stop", "pause", "resume"]:
