@@ -78,7 +78,7 @@ angle_joints = {
 
 ## ========= basic skills ==========
 
-def moveAngle(joint="J1", angle=0, speed=30):
+def move_angle(joint="J1", angle=0, speed=30):
     """
     Moves one joint of the robot seperately
     :param joint: J1 to J6 as string

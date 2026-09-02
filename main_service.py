@@ -172,7 +172,7 @@ skillset = {
     "pickupFromLaser": pickupFromLaser,
     "placeToChipFlipper": placeToChipFlipper,
     "pickupFromChipFlipper": pickupFromChipFlipper,
-    "moveAngle": moveAngle,
+    "move_angle": move_angle,
 }
 
 # ================= START =================
