@@ -18,6 +18,14 @@ control_state = {
     "resume": False,
 }
 
+angle_joints = {
+    "J1": Angle.J1.value,
+    "J2": Angle.J2.value,
+    "J3": Angle.J3.value,
+    "J4": Angle.J4.value,
+    "J5": Angle.J5.value,
+    "J6": Angle.J6.value
+}
 
 class SkillAborted(Exception):
     """Wird geworfen, um einen laufenden Skill wegen 'stop' sauber
@@ -67,16 +75,7 @@ def interruptible_sleep(seconds):
             return
         time.sleep(min(0.1, remaining))
 
-angle_joints = {
-    "J1": Angle.J1.value,
-    "J2": Angle.J2.value,
-    "J3": Angle.J3.value,
-    "J4": Angle.J4.value,
-    "J5": Angle.J5.value,
-    "J6": Angle.J6.value
-}
-
-## ========= basic skills ==========
+## ========= Basic Skills ==========
 
 def move_angle(joint="J1", angle=0, speed=30):
     """
@@ -90,27 +89,44 @@ def move_angle(joint="J1", angle=0, speed=30):
         robot.send_angle(angle_joints[joint], angle, speed)
 
 def pickup(speed=40):
+    """
+    Starts the suction pump and then moves to home-angles [ 0, 0, 0, 0, 0, 0 ]
+    :param speed: 0 to 100
+    :return:
+    """
     grip()
     time.sleep(2)
     home(speed)  
 
 def placeTo(speed=40):
+    """
+    Stops the suction pump and then moves to home-angles [ 0, 0, 0, 0, 0, 0 ]
+    :param speed: 0 to 100
+    :return:
+    """
     release()
     time.sleep(2)
     home(speed)
 
-# coords [x y z rx ry rz] -> not used
-# angles [J1 J2 J3 J4 J5 J6]
 def moveTo(angles, speed=40):
+    """
+    Moves robot arm to specific angles.
+    Checkpoint before and after the move_angles-call, if a stop or pause command came in during the call.
+    So the command takes effect quickly, before the next call starts.
+    :param angles: [J1 J2 J3 J4 J5 J6]
+    :param speed: 0 to 100
+    :return:
+    """
     check_abort()
     robot.move_angles(angles, speed)
-    # kurzer Checkpoint direkt danach, damit ein stop/pause, der waehrend
-    # des Aufrufs reinkam, moeglichst schnell greift, bevor der naechste
-    # Befehl rausgeht.
     check_abort()
 
-
 def home(speed=30):
+    """
+    Returns robot-arm to home-angles [0, 0, 0, 0, 0, 0 ]
+    :param speed:
+    :return:
+    """
     current_angles = robot.get_angles()
     x = current_angles[0]
     moveTo([x, 0, 0, 0, 0, 0], speed)
@@ -122,8 +138,14 @@ def grip():
 def release():
     vacuum.off()
 
-## Service Skills
+## ====== Service Skills ======
+
 def pickupFromConveyor1(speed=40):
+    """
+    moves to Conveyor 1 and picks up the chip with the suction pump.
+    :param speed: 0 to 100
+    :return:
+    """
     moveTo([-150.5, 0, 0, 0, 0, -90], speed)
     time.sleep(1)
     moveTo([-150.5, 0, 35, 0, -40, -90], speed)
@@ -134,6 +156,11 @@ def pickupFromConveyor1(speed=40):
     home(speed)
 
 def placeToConveyor1(speed=40):
+    """
+    moves to Conveyor 1 and places the chip there with the suction pump.
+    :param speed: 0 to 100
+    :return:
+    """
     moveTo([-150.5, 0, 0, 0, 0, -90], speed)
     time.sleep(1)
     moveTo([-150.5, 0, 35, 0, -40, -90], speed)
@@ -145,6 +172,11 @@ def placeToConveyor1(speed=40):
     home(speed)
 
 def placeToConveyor2(speed=40):
+    """
+    moves to Conveyor 2 and places the chip there with the suction pump.
+    :param speed: 0 to 100
+    :return:
+    """
     moveTo([132, 0, -30, 0, 0, -90], speed)
     time.sleep(1)
     moveTo([132, 0, 39, 0, -40, -90], speed)
@@ -157,6 +189,11 @@ def placeToConveyor2(speed=40):
     home(speed)
 
 def pickupFromConveyor2(speed=40):
+    """
+    moves to Conveyor 1 and picks up the chip with the suction pump.
+    :param speed: 0 to 100
+    :return:
+    """
     moveTo([132, 0, -30, 0, 0, -90], speed)
     time.sleep(1)
     moveTo([132, 0, 39, 0, -40, -90], speed)
@@ -168,7 +205,6 @@ def pickupFromConveyor2(speed=40):
     home(speed)
 
 # TODO genau wenn Modell fertig und Laser in Vorrichtung steht
-#  Überdreht manchmal über 160° - verbessern!!
 def placeToLaser(speed=40):
     moveTo([158, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
@@ -184,6 +220,7 @@ def placeToLaser(speed=40):
     time.sleep(1)
     home(speed)
 
+# TODO
 def pickupFromLaser(speed=40):
     moveTo([158, 0, -30, 0, 0, 0], speed)
     time.sleep(1)
@@ -200,6 +237,11 @@ def pickupFromLaser(speed=40):
     home(speed)
 
 def placeToChipFlipper(speed=40):
+    """
+    places Chip to Chip-Flipper
+    :param speed: 0 to 100
+    :return:
+    """
     moveTo([0, 0, -30, 0, 0, -90], speed)
     time.sleep(1)
     moveTo([-20, 30, -55, 0, 2, -90], speed)
@@ -212,6 +254,11 @@ def placeToChipFlipper(speed=40):
     home(speed)
 
 def pickupFromChipFlipper(speed=40):
+    """
+    picks up Chip from Chip-Flipper
+    :param speed: 0 to 100
+    :return:
+    """
     moveTo([0, 0, 0, 0, 0, -90], speed)
     robot.send_angle(Angle.J1.value, -25, speed)
     time.sleep(1)
@@ -222,47 +269,24 @@ def pickupFromChipFlipper(speed=40):
     moveTo([-21, 20, -5, 0, -40, -90], speed)
     home(speed)
 
-# deprecated
-def placeToPedestal(speed=40):
-    moveTo([0, 0, 0, 0, 0, -179], speed)
-    time.sleep(2)
-
-    moveTo([-6, 25, 21.5, -10, -41, -179], 20)
-    time.sleep(2)
-
-    release()
-    time.sleep(4)
-
-    moveTo([5, 0, 20, 0, -10, -179], speed)
-    time.sleep(2)
-
+def turn_chip(speed=40):
+    """
+    turns Chip on Chip-Flipper with using placeToChipFlipper and pickupFromChipFlipper
+    :param speed: 0 to 100
+    :return:
+    """
+    placeToChipFlipper(speed)
     home(speed)
-
-# deprecated
-def pickupFromPedestal(speed=40):
-    # tbd [-49.65,70.04,-43.85,-74,-49.57,56.16]
-    moveTo([-50, 0, 0, 0, 0, 0], speed)
-    time.sleep(0.5)
-    moveTo([-49, 65, -45, -74, -55, 56], speed)
-    grip()
-    time.sleep(2)
-    moveTo([-50, 0, -45, -74, -55, 56], speed)
-    time.sleep(1)
-    moveTo([-50, 0, 0, 0, 0, 0], speed)
-    time.sleep(1)
-    home(speed)
-
-# TODO
-def turnChip(speed=40):
-    placeToPedestal()
-    home(speed)
-    pickupFromPedestal(speed) # tbd
+    pickupFromChipFlipper(speed)
     home(speed)
 
 def release_servos(speed=40):
-    print("releasing robot-servos now!")
     time.sleep(2)
     robot.release()
 
 def show_angles():
-     print(f"Angles: {robot.get_angles()}")
+    """
+    shows current angles of the robot arm.
+    :return: a float list of all angles
+    """
+    return robot.get_angles()

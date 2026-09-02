@@ -9,11 +9,6 @@ from mqtt_config import *
 
 skill_lock = threading.Lock()
 
-FIRST_RECONNECT_DELAY = 1
-RECONNECT_RATE = 2
-MAX_RECONNECT_COUNT = 12
-MAX_RECONNECT_DELAY = 60
-
 # ================= MQTT =================
 
 def on_connect(client, userdata, flags, rc):
@@ -29,7 +24,7 @@ def on_connect(client, userdata, flags, rc):
         vacuum.off()
         home(40)
         print("→ starting position set")
-        publish_state("home", "done", robot.get_angles())
+        publish_state("home", "done", show_angles())
     else:
         print(f'Failed to connect, return code {rc}')
         publish_connection_state({
@@ -81,7 +76,7 @@ def run_skill(payload, speed):
     try:
         skill = skillset.get(payload["skill"])
         if skill:
-            publish_state(payload, "starting", robot.get_angles())
+            publish_state(payload, "starting", show_angles())
             reset_control()
             args = payload.get("args", {})
             skill(**args)
@@ -91,7 +86,7 @@ def run_skill(payload, speed):
             publish_state(payload, "error - unknown command")
             return
 
-        publish_state(payload, "done", robot.get_angles())
+        publish_state(payload, "done", show_angles())
 
     except SkillAborted:
         print(f"[Skill] '{payload}' wurde per stop abgebrochen")
@@ -103,10 +98,14 @@ def run_skill(payload, speed):
         skill_lock.release()
 
 def handle_control(cmd):
+    """
+    Reihenfolge wichtig: erst Events setzen, damit ein Skill-Thread,
+    der gerade in pause_event.wait() haengt, sofort aufwacht und
+    stop_event sieht. Danach den Arm auch physisch sofort anhalten.
+    :param cmd: string
+    :return:
+    """
     if cmd == "stop":
-        # Reihenfolge wichtig: erst Events setzen, damit ein Skill-Thread,
-        # der gerade in pause_event.wait() haengt, sofort aufwacht und
-        # stop_event sieht. Danach den Arm auch physisch sofort anhalten.
         control_state["stop"] = True
         stop_event.set()
         pause_event.set()
@@ -168,10 +167,11 @@ skillset = {
     "placeToConveyor1": placeToConveyor1,
     "pickupFromConveyor2": pickupFromConveyor2,
     "placeToConveyor2": placeToConveyor2,
-    "placeToLaser": placeToLaser,
     "pickupFromLaser": pickupFromLaser,
-    "placeToChipFlipper": placeToChipFlipper,
+    "placeToLaser": placeToLaser,
     "pickupFromChipFlipper": pickupFromChipFlipper,
+    "placeToChipFlipper": placeToChipFlipper,
+    "turn_chip": turn_chip,
     "move_angle": move_angle,
 }
 
