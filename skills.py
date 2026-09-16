@@ -206,19 +206,6 @@ def pickupFromConveyor2(speed=40):
 
 # TODO
 def placeToLaser(speed=40):
-    # moveTo([158, 0, -30, 0, 0, 0], speed)
-    # time.sleep(1)
-    # moveTo([158, 30, 20, 0, -60, -90], speed)
-    # time.sleep(1)
-    # moveTo([158, 90, -80, 0, -10, -90], speed)
-    # time.sleep(1)
-    # release()
-    # time.sleep(2)
-    # moveTo([158, 30, 20, 0, -60, -90], speed)
-    # time.sleep(1)
-    # moveTo([158, 0, -30, 0, 0, 0], speed)
-    # time.sleep(1)
-    # home(speed)
     moveTo([ 0, -40, -150, 0, -90, 0], 30)
     time.sleep(1)
     moveTo([0, -60, -150, 0 ,40, 0], 30)

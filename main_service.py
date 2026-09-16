@@ -163,6 +163,7 @@ skillset = {
     "release": release,
     "release_servos": release_servos,
     "get_angles": show_angles,
+    "moveTo": moveTo,
     "pickupFromConveyor1": pickupFromConveyor1,
     "placeToConveyor1": placeToConveyor1,
     "pickupFromConveyor2": pickupFromConveyor2,
