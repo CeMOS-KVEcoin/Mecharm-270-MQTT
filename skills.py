@@ -186,6 +186,7 @@ def placeToConveyor2(speed=40):
     moveTo([132, 0, -30, 0, 0, -90], speed)
     time.sleep(1)
     moveTo([0, 0, -30, 0, 0, -90], speed)
+    time.sleep(1)
     home(speed)
 
 def pickupFromConveyor2(speed=40):
@@ -202,9 +203,9 @@ def pickupFromConveyor2(speed=40):
     moveTo([132, 0, -30, 0, 0, -90], speed)
     time.sleep(1)
     moveTo([0, 0, -30, 0, 0, -90], speed)
+    time.sleep(1)
     home(speed)
 
-# TODO
 def placeToLaser(speed=40):
     moveTo([0, 30, -150, 0, -90, 0], 30)
     time.sleep(1)
@@ -224,7 +225,6 @@ def placeToLaser(speed=40):
     time.sleep(1)
     home(speed)
 
-# TODO
 def pickupFromLaser(speed=40):
     moveTo([0, 30, -150, 0, -90, 0], 30)
     time.sleep(1)
@@ -259,6 +259,7 @@ def placeToChipFlipper(speed=40):
     robot.send_angle(Angle.J3.value, -52, speed)
     time.sleep(1)
     robot.send_angle(Angle.J3.value, -60, speed)
+    time.sleep(1)
     home(speed)
 
 def pickupFromChipFlipper(speed=40):
@@ -275,6 +276,7 @@ def pickupFromChipFlipper(speed=40):
     grip()
     time.sleep(2)
     moveTo([-21, 20, -5, 0, -40, -90], speed)
+    time.sleep(1)
     home(speed)
 
 def turn_chip(speed=40):
@@ -295,6 +297,6 @@ def release_servos(speed=40):
 def show_angles():
     """
     shows current angles of the robot arm.
-    :return: a float list of all angles
+    :return: a float list of the current angles
     """
     return robot.get_angles()

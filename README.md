@@ -12,22 +12,23 @@ ausgerüstet, um einen Einkaufschip aufzuheben.
 
 ## Skills
 
-| Skill                 | Beschreibung |
-|-----------------------|---|
-| home                  | Fährt auf den Ausgangszustand mit Koordinaten [ 0, 0, 0, 0, 0, 0 ] |
-| grip                  | Schaltet die Vakuum-Pumpe an |
-| release               | Schaltet die Vakuum-Pumpe aus |
-| pickupFromConveyor1   | Nimmt den Chip von Förderband 1 auf |
-| placeToConveyor1      | Legt den Chip auf Förderband 1 ab |
-| pickupFromConveyor2   | Nimmt den Chip von Förderband 2 auf |
-| placeToConveyor2      | Legt den Chip auf Förderband 2 ab |
-| pickupFromLaser       | Nimmt den Chip aus der Laservorrichtung |
-| placeToLaser          | Legt den Chip in die Laservorrichtung |
-| pickupFromChipFlipper | Nimmt den Chip aus der Dreh-Vorrichtung raus |
-| placeToChipFlipper    | Legt den Chip in die Dreh-Vorrichtung ab |
+| Skill                 | Beschreibung                                                                |
+|-----------------------|-----------------------------------------------------------------------------|
+| home                  | Fährt auf den Ausgangszustand mit Winkel-Koordinaten [ 0, 0, 0, 0, 0, 0 ]   |
+| grip                  | Schaltet die Vakuum-Pumpe an                                                |
+| release               | Schaltet die Vakuum-Pumpe aus                                               |
+| pickupFromConveyor1   | Nimmt den Chip von Förderband 1 auf                                         |
+| placeToConveyor1      | Legt den Chip auf Förderband 1 ab                                           |
+| pickupFromConveyor2   | Nimmt den Chip von Förderband 2 auf                                         |
+| placeToConveyor2      | Legt den Chip auf Förderband 2 ab                                           |
+| pickupFromLaser       | Nimmt den Chip aus der Laservorrichtung                                     |
+| placeToLaser          | Legt den Chip in die Laservorrichtung                                       |
+| pickupFromChipFlipper | Nimmt den Chip aus der Dreh-Vorrichtung raus                                |
+| placeToChipFlipper    | Legt den Chip in die Dreh-Vorrichtung ab                                    |
 | release_servos        | Deaktiviert alle Servos des Roboter und macht diesen dadurch frei beweglich | 
-| get_angles            | Zeigt die aktuellen Positions-Winkel des Roboter-Armes an | 
-| move_angle | Bewegt ein einzelnes Gelenk des Roboter-Armes |  
+| get_angles            | Zeigt die aktuellen Positions-Winkel des Roboter-Armes an                   | 
+| move_angle | Bewegt ein einzelnes Gelenk des Roboter-Armes                               | 
+| moveTo | Bewegt den Roboter-Arm an die gewünschte Position                           |  
 
 
 ---
