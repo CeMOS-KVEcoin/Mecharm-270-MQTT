@@ -2,8 +2,7 @@
 import logging
 import threading
 
-#from mqtt_service import MqttService
-from mqtt_serv_test import MqttService
+from mqtt_service import MqttService
 
 from mqtt_config import (
     CLIENT_ID, MQTT_USER, MQTT_PASS,
