@@ -2,7 +2,7 @@ import os
 import time
 import threading
 from dotenv import load_dotenv
-from pymycobot import MechArm270
+from pymycobot import MechArm270, PI_PORT, PI_BAUD
 from pymycobot.genre import Coord, Angle
 
 load_dotenv()
@@ -10,9 +10,11 @@ load_dotenv()
 class RobotController:
     def __init__(self):
         self.Angle = None
-        port = os.getenv("SERIAL_PORT", "/dev/ttyAMA0")
-        baud = int(os.getenv("BAUD", "1000000"))
-        print(f"[Motion] Initialise MechArm at Port {port} with Baudrate {baud}")
+        # port = os.getenv("SERIAL_PORT", "/dev/ttyAMA0") # PI_PORT
+        # baud = int(os.getenv("BAUD", "1000000")) # PI_BAUD
+        # print(f"[Motion] Initialise MechArm at Port {port} with Baudrate {baud}")
+        port = PI_PORT
+        baud = PI_BAUD
         self.mc = MechArm270(port, baud)
         self._serial_lock = threading.RLock()
 

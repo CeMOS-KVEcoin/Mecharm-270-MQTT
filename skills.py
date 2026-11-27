@@ -63,7 +63,7 @@ def check_abort():
                 raise SkillAborted("stop requested while paused")
         print("[Skill] resumed")
 
-
+# TODO unnötig?
 def interruptible_sleep(seconds):
     """Ersatz fuer time.sleep(), der alle 100ms auf stop/pause reagiert,
     statt die volle Dauer stur abzuwarten."""

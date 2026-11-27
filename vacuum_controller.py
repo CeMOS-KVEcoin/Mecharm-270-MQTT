@@ -1,13 +1,11 @@
 import os
 import RPi.GPIO as GPIO
-from dotenv import load_dotenv
-
-load_dotenv()
+from mqtt_config import VACUUM_ON_PIN, VACUUM_OFF_PIN
 
 class VacuumController:
     def __init__(self):
-        self.on_pin = int(os.getenv("VACUUM_ON_PIN", "20"))
-        self.off_pin = int(os.getenv("VACUUM_OFF_PIN", "21"))
+        self.on_pin = VACUUM_ON_PIN
+        self.off_pin = VACUUM_OFF_PIN
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.on_pin, GPIO.OUT)

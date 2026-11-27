@@ -18,7 +18,7 @@ TOPIC_CMD = "mecharm/command"
 TOPIC_STATUS = "mecharm/status"
 TOPIC_CONNECTION = "mecharm/connection"
 
-FIRST_RECONNECT_DELAY = 1
-RECONNECT_RATE = 2
-MAX_RECONNECT_COUNT = 12
-MAX_RECONNECT_DELAY = 60
+## ========== Suction Pump Details ==========
+
+VACUUM_ON_PIN = 20
+VACUUM_OFF_PIN = 21
