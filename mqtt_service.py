@@ -50,7 +50,11 @@ class MqttService:
         self.client.loop_stop()
         self.client.disconnect()
 
-    def publish_status(self, message, state, angles=None):
+    def publish_status(self, command, args={}, state="ready", angles=None):
+        message = {
+            "skill": command,
+            "args": args,
+        }
         payload = {
             "state": state,
             "msg": message,

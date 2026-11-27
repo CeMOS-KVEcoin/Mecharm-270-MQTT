@@ -62,6 +62,7 @@ SKILLS = {
 
 def handle_command(payload, mqtt_service):
     command = payload.get("skill")
+    args = payload.get("args", {})
 
     if not isinstance(command, str):
         mqtt_service.publish_status("Feld 'skill' fehlt oder ist ungültig", "error")
@@ -73,7 +74,6 @@ def handle_command(payload, mqtt_service):
         stop_event.set()
         pause_event.set()  # weckt einen pausierten Skill-Thread auf
         robot.stop()
-        # stop_all_motors(robot)
         mqtt_service.publish_status(command, "done")
         return
 
@@ -93,15 +93,14 @@ def handle_command(payload, mqtt_service):
 
     skill = SKILLS.get(command)
     if skill is None:
-        mqtt_service.publish_status(command, "error - unknown command")
+        mqtt_service.publish_status(command, args, "error - unknown command", show_angles())
         return
 
     # Nicht erst .locked() prüfen und danach sperren: Das wäre ein Race.
     if not skill_lock.acquire(blocking=False):
-        mqtt_service.publish_status(command, "busy")
+        mqtt_service.publish_status(command, args, "busy", show_angles())
         return
 
-    args = payload.get("args", {})
     if not isinstance(args, dict):
         skill_lock.release()
         mqtt_service.publish_status("Feld 'args' muss ein JSON-Objekt sein", "error")
@@ -117,14 +116,14 @@ def handle_command(payload, mqtt_service):
 
 def run_skill(command, skill, args, mqtt_service):
     try:
-        mqtt_service.publish_status(command, "starting", show_angles())
+        mqtt_service.publish_status(command, args, "starting", show_angles())
         reset_control()
         skill(**args)
-        mqtt_service.publish_status(command, "done", show_angles())
+        mqtt_service.publish_status(command, args, "done", show_angles())
 
     except SkillAborted:
         logging.info("Skill %s wurde gestoppt", command)
-        mqtt_service.publish_status(command, "stopped", show_angles())
+        mqtt_service.publish_status(command, args, "stopped", show_angles())
 
     except Exception as exc:
         logging.exception("Fehler beim Skill %s", command)
@@ -148,9 +147,9 @@ def main():
     )
     service.start()
     try:
-        # Hier kann dein Startverhalten hin:
-        # vacuum.off()
-        # home(40)
+        # TODO: Abfrag ob Robot Joint 1 = 0
+        vacuum.off()
+        home(40)
         threading.Event().wait()
     except KeyboardInterrupt:
         logging.info("Keyboard interrupt received: ctrl + c")
