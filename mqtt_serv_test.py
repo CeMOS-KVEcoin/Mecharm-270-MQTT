@@ -62,7 +62,7 @@ class MqttService:
         payload = self._connection_payload(online=online)
         self.client.publish(
             self.topic_connection,
-            json.dumps(payload),
+            payload,
             qos=1,
             retain=True,
         )
