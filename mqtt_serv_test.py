@@ -68,10 +68,10 @@ class MqttService:
         )
 
     def _connection_payload(self, *, online):
-        return {
+        return json.dumps({
             "state": "online" if online else "offline",
             "online": online,
-        }
+        })
 
     def _on_connect(self, client, userdata, flags, rc):
         if rc != 0:
