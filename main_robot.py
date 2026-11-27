@@ -13,13 +13,13 @@ from mqtt_config import (
 
 from skills import (
     SkillAborted,
-    # control_state,
-    # pause_event,
+    control_state,
+    pause_event,
     reset_control,
-    check_abort,
+    #check_abort,
     robot,
     show_angles,
-    # stop_event,
+    stop_event,
     # stop_all_motors,
     vacuum,
     home,
